@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
-import { NgIconComponent, provideIcons } from "@ng-icons/core";
-import { featherAirplay } from "@ng-icons/feather-icons";
-import { heroHandRaised } from '@ng-icons/heroicons/outline'
+import { Component } from '@angular/core';
+
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { featherAirplay } from '@ng-icons/feather-icons';
+import { heroHandRaised } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-header',
@@ -20,5 +21,4 @@ import { heroHandRaised } from '@ng-icons/heroicons/outline'
   viewProviders: [provideIcons({ featherAirplay, heroHandRaised })],
   styles: [``]
 })
-
-export class HeaderComponent{}
+export class HeaderComponent {}

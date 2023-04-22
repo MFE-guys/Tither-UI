@@ -1,17 +1,22 @@
 import { Component } from '@angular/core';
-import {HeaderComponent} from "./components/header";
-import {CardComponent} from "./components/card";
-import {NgFor} from "@angular/common";
+import { NgFor } from '@angular/common';
 
-import {provideIcons} from "@ng-icons/core";
-import {heroArrowSmallUp, heroArrowSmallDown, heroBanknotes} from "@ng-icons/heroicons/outline";
+import { provideIcons } from '@ng-icons/core';
+import {
+  heroArrowSmallUp,
+  heroArrowSmallDown,
+  heroBanknotes
+} from '@ng-icons/heroicons/outline';
+
+import { CardComponent } from './components/card';
+import { HeaderComponent } from './components/header';
 
 type LabelType = 'Income' | 'Expense' | 'Current Balance';
 interface CardModel {
-  name: LabelType,
-  color: string,
-  icon: string,
-  value: number
+  name: LabelType;
+  color: string;
+  icon: string;
+  value: number;
 }
 
 @Component({
@@ -35,7 +40,9 @@ interface CardModel {
       </main>
     </div>
   `,
-  viewProviders: [provideIcons( { heroArrowSmallUp, heroArrowSmallDown, heroBanknotes } )],
+  viewProviders: [
+    provideIcons({ heroArrowSmallUp, heroArrowSmallDown, heroBanknotes })
+  ]
 })
 export class AppComponent {
   cardType: CardModel[] = [
@@ -43,19 +50,19 @@ export class AppComponent {
       name: 'Income',
       color: 'text-emerald-800',
       icon: 'heroArrowSmallUp',
-      value: 2000.00
+      value: 2000.0
     },
     {
       name: 'Expense',
       color: 'text-red-800',
       icon: 'heroArrowSmallDown',
-      value: 1200.00
+      value: 1200.0
     },
     {
       name: 'Current Balance',
       color: 'text-zinc-800',
       icon: 'heroBanknotes',
-      value: 800.00
+      value: 800.0
     }
-  ]
+  ];
 }
