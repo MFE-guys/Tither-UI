@@ -27,7 +27,7 @@ interface CardModel {
     <div class="h-screen">
       <app-header />
       <main class="max-w-8xl mt-2 m-auto px-4">
-        <div class="flex flex-row justify-center gap-2 ">
+        <div class="flex flex-row justify-center gap-2">
           <app-card
             *ngFor="let card of cardType"
             class="w-full"
