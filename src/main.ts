@@ -1,7 +1,18 @@
-import { AppComponent } from './app/app.component';
+import "@angular/compiler";
+import "zone.js";
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { AppComponent } from './app.component';
+import {NgZone} from "@angular/core";
+import {appRouting} from "./app.routing";
+
+import './styles.scss'
 
 bootstrapApplication(AppComponent, {
-  providers: [provideHttpClient()]
-}).catch(err => console.error(err));
+    providers: [
+        {
+            provide: NgZone,
+            useValue: new NgZone({ shouldCoalesceEventChangeDetection: false })
+        },
+        ...appRouting
+    ]
+});
