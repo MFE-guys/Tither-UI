@@ -17,7 +17,7 @@ bootstrapApplication(AppComponent, {
   ]
 });
 
-async function lazyOther () {
+async function lazyOther() {
   const { otherAction } = await import('./other');
   document.querySelector<HTMLDivElement>('#app')!.innerHTML = 'Hello world';
   otherAction();

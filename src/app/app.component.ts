@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
-  template: `<span class="text-2xl font-bold"> hello Tithe </span>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [],
+  template: `<span class="text-2xl font-bold"> Hello Tithe </span>`
 })
 export class AppComponent {}
