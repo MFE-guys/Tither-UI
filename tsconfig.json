@@ -15,7 +15,7 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "types": ["vite/client"], // for vite
-    "experimentalDecorators": true, // for angular
+    "experimentalDecorators": true // for angular
   },
   "include": ["src"]
 }

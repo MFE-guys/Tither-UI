@@ -3,7 +3,7 @@ import { dependencies } from './package.json';
 
 function renderChunks(deps) {
   let chunks = {};
-  Object.keys(deps).forEach((key) => {
+  Object.keys(deps).forEach(key => {
     if ([].includes(key)) return;
     chunks[key] = [key];
   });
@@ -11,16 +11,16 @@ function renderChunks(deps) {
 }
 
 export default defineConfig({
-    plugins: [splitVendorChunkPlugin()],
-    build: {
-        sourcemap: false,
-        rollupOptions: {
-          output: {
-            manualChunks: {
-              vendor: [],
-              ...renderChunks(dependencies),
-            },
-          },
-        },
-      },
-  })
+  plugins: [splitVendorChunkPlugin()],
+  build: {
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: [],
+          ...renderChunks(dependencies)
+        }
+      }
+    }
+  }
+});
