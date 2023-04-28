@@ -14,6 +14,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
     "types": ["vite/client", "vitest/importMeta"], // for vite
     "experimentalDecorators": true // for angular
   },
