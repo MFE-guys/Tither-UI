@@ -1,14 +1,20 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { ButtonModule } from 'primeng/button';
-
-import { HeaderComponent } from './components/Header';
+import { Component, OnInit } from "@angular/core";
+import { ButtonModule } from "primeng/button";
+import { PrimeNGConfig } from "primeng/api";
+import { HeaderComponent } from "../components/Header";
 
 @Component({
   selector: 'app-root',
+  imports: [HeaderComponent],
   standalone: true,
-  imports: [CommonModule, HeaderComponent, ButtonModule],
-  template: `<app-header />`
+  template: `<app-header />`,
 })
-export class AppComponent {}
+
+export class AppComponent implements OnInit {
+
+  constructor(private primengConfig: PrimeNGConfig) {}
+
+  ngOnInit() {
+    this.primengConfig.ripple = true;
+  }
+}

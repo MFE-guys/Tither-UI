@@ -3,44 +3,73 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "tithe-spa": {
+    "tither": {
       "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@nrwl/vite:build",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "configFile": "vite.config.ts",
-            "outputPath": "dist/client"
+            "outputPath": "dist/tither",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
+            "scripts": []
           },
-          "defaultConfiguration": "production",
           "configurations": {
-            "development": {
-              "mode": "development"
-            },
             "production": {
-              "sourcemap": false,
-              "mode": "production"
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@nrwl/vite:dev-server",
-          "defaultConfiguration": "development",
-          "options": {
-            "buildTarget": "tithe-spa:build",
-            "port": 4200
-          },
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "development": {
-              "buildTarget": "tithe-spa:build:development",
-              "hmr": true
-            },
             "production": {
-              "buildTarget": "tithe-spa:build:production"
+              "browserTarget": "tither:build:production"
+            },
+            "development": {
+              "browserTarget": "tither:build:development"
             }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "tither:build"
           }
         },
         "lint": {
