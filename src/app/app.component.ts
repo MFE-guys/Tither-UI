@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ButtonModule } from 'primeng/button';
 import { PrimeNGConfig } from 'primeng/api';
 
-import { HeaderComponent } from '../components/Header';
+import { HeaderComponent } from './components/Header';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +13,7 @@ import { HeaderComponent } from '../components/Header';
 export class AppComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
   }
 }
