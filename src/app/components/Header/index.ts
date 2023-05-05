@@ -1,10 +1,10 @@
-import {AfterContentInit, ChangeDetectionStrategy, Component} from '@angular/core';
+import {AfterContentInit, ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgClass} from "@angular/common";
 import {ButtonModule} from "primeng/button";
 import {ThemeService} from "../../theme.service";
 
-export class ThemeConfig {
+class ThemeConfig {
   icon: string;
   theme: string;
 
@@ -25,32 +25,30 @@ export class ThemeConfig {
           <span class="font-bold">TITHER</span>
         </div>
 
-        <div class="flex justify-content-between align-items-center gap-2">
+        <div class="flex justify-content-between align-items-center">
           <p-button
-            [icon] = 'theme.icon'
             styleClass="p-button-rounded"
+            [icon]='themeConfig.icon'
             (click)="changeTheme()"
           />
         </div>
       </div>
     </header>
-
-
   `,
   styles: [` `]
 })
 export class HeaderComponent {
   check?: boolean;
-  theme = new ThemeConfig()
-  constructor(private themeService: ThemeService) {}
+  themeConfig = new ThemeConfig();
+  private themeService = inject(ThemeService)
 
-  changeTheme() {
-    this.theme = new ThemeConfig();
-    this.check =! this.check
+  changeTheme(): void {
+    this.check =! this.check;
+    this.themeConfig = new ThemeConfig();
 
-    if(this.check) this.theme = { theme: 'vela-green', icon: 'pi pi-sun' }
-    else this.theme = { theme: 'saga-green', icon: 'pi pi-moon' }
-
-    this.themeService.switchTheme(this.theme.theme);
+    this.themeConfig = this.check
+       ? { theme: 'vela-green', icon: 'pi pi-sun' }
+       : { theme: 'saga-green', icon: 'pi pi-moon' };
+    this.themeService.switchTheme(this.themeConfig.theme);
   }
 }
