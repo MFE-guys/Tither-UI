@@ -1,16 +1,17 @@
-import {AfterContentInit, ChangeDetectionStrategy, Component} from '@angular/core';
+import { Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {NgClass} from "@angular/common";
+import { NgClass} from "@angular/common";
 import {ButtonModule} from "primeng/button";
 import {ThemeService} from "../../theme.service";
 
-export class ThemeConfig {
-  icon: string;
-  theme: string;
 
-  constructor() {
-    this.icon = 'pi pi-moon';
-    this.theme = 'saga-green';
+class ThemeConfig {
+  icon: 'pi pi-sun' | 'pi pi-moon';
+  theme: 'saga-green' | 'vela-green';
+
+  constructor( ) {
+    this.icon = "pi pi-moon";
+    this.theme = "saga-green";
   }
 }
 
@@ -25,32 +26,39 @@ export class ThemeConfig {
           <span class="font-bold">TITHER</span>
         </div>
 
-        <div class="flex justify-content-between align-items-center gap-2">
+        <div class="flex justify-content-between align-items-center">
           <p-button
-            [icon] = 'theme.icon'
             styleClass="p-button-rounded"
+            [icon]='themeConfig.icon'
             (click)="changeTheme()"
           />
         </div>
       </div>
     </header>
-
-
   `,
   styles: [` `]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   check?: boolean;
-  theme = new ThemeConfig()
-  constructor(private themeService: ThemeService) {}
+  themeConfig = new ThemeConfig();
+  test = [
+    { theme: 'vela-green', icon: 'pi pi-sun' },
+    { theme: 'saga-green', icon: 'pi pi-moon' }
+  ]
+  private themeService = inject(ThemeService);
 
-  changeTheme() {
-    this.theme = new ThemeConfig();
-    this.check =! this.check
+  ngOnInit(): void {
+    this.themeService.switchTheme(this.themeConfig.theme);
+  }
 
-    if(this.check) this.theme = { theme: 'vela-green', icon: 'pi pi-sun' }
-    else this.theme = { theme: 'saga-green', icon: 'pi pi-moon' }
+  changeTheme(): void {
+    this.check =! this.check;
+    this.themeConfig = new ThemeConfig();
 
-    this.themeService.switchTheme(this.theme.theme);
+    this.themeConfig = this.check
+       ? { theme: 'vela-green', icon: 'pi pi-sun' }
+       : { theme: 'saga-green', icon: 'pi pi-moon' };
+
+    this.themeService.switchTheme(this.themeConfig.theme);
   }
 }
