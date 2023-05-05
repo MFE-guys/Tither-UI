@@ -10,9 +10,11 @@ export class ThemeService {
 
   switchTheme(theme: string) {
     let themeLink = this.document.getElementById('app-theme') as HTMLLinkElement;
+    localStorage.setItem('theme', theme);
 
     if (themeLink) {
-      themeLink.href = theme + '.css';
+      themeLink.href = localStorage.getItem('theme') + '.css';
     }
+
   }
 }

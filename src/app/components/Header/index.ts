@@ -1,9 +1,8 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, inject, signal, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import { NgClass} from "@angular/common";
 import {ButtonModule} from "primeng/button";
 import {ThemeService} from "../../theme.service";
-
 
 class ThemeConfig {
   icon: 'pi pi-sun' | 'pi pi-moon';
@@ -39,12 +38,8 @@ class ThemeConfig {
   styles: [` `]
 })
 export class HeaderComponent implements OnInit {
-  check?: boolean;
+  check = signal<boolean>(false)
   themeConfig = new ThemeConfig();
-  test = [
-    { theme: 'vela-green', icon: 'pi pi-sun' },
-    { theme: 'saga-green', icon: 'pi pi-moon' }
-  ]
   private themeService = inject(ThemeService);
 
   ngOnInit(): void {
@@ -52,10 +47,10 @@ export class HeaderComponent implements OnInit {
   }
 
   changeTheme(): void {
-    this.check =! this.check;
     this.themeConfig = new ThemeConfig();
+    this.check.set(!this.check());
 
-    this.themeConfig = this.check
+    this.themeConfig = this.check()
        ? { theme: 'vela-green', icon: 'pi pi-sun' }
        : { theme: 'saga-green', icon: 'pi pi-moon' };
 
