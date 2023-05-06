@@ -3,16 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
 import { HeaderComponent } from './components/Header';
-import {ThemeService} from "./theme.service";
-import {ButtonModule} from "primeng/button";
+import { ThemeService } from './theme.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-root',
   imports: [HeaderComponent, ButtonModule],
   standalone: true,
-  template: `
-    <app-header />
-  `
+  template: ` <app-header /> `
 })
 export class AppComponent implements OnInit {
   constructor(
@@ -23,5 +21,4 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
   }
-
 }
