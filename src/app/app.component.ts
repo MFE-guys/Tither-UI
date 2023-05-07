@@ -6,9 +6,15 @@ import { HeaderComponent } from './components/Header';
 import {ThemeService} from "./theme.service";
 import {ButtonModule} from "primeng/button";
 
+
+
+// @ts-ignore
 @Component({
   selector: 'app-root',
-  imports: [HeaderComponent, ButtonModule],
+  imports: [
+    HeaderComponent,
+    ButtonModule
+  ],
   standalone: true,
   template: `
     <app-header />

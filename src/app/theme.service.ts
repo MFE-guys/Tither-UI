@@ -14,7 +14,7 @@ export class ThemeService {
     localStorage.setItem('theme', theme);
 
     if (themeLink) {
-      themeLink.href = localStorage.getItem('theme') + '.css';
+      themeLink.href = theme + '.css';
     }
   }
 }
