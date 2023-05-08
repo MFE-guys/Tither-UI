@@ -1,13 +1,17 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, effect, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { ThemeService } from '../../theme.service';
+import { darkTheme, decrement, increment, lightTheme } from 'src/app/store/actions';
+
 import { async, Observable } from 'rxjs';
+
+import { ButtonModule } from 'primeng/button';
 import { select, Store } from '@ngrx/store';
+
+import { ThemeService } from '../../theme.service';
+
 // import { ThemeState } from 'src/app/store/reducers/theme.reducer';
 // import { selectDarkTheme } from 'src/app/store/reducers';
-import { darkTheme, decrement, increment, lightTheme } from 'src/app/store/actions';
 
 class ThemeConfig {
   icon: 'pi pi-sun' | 'pi pi-moon';
@@ -19,7 +23,7 @@ class ThemeConfig {
   }
 }
 
-// @ts-ignore
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -32,13 +36,15 @@ class ThemeConfig {
         <div class="flex flex-row items-center">
           <span class="font-bold">TITHER</span>
           <p>{{theme$ | async}}</p>
+          <p class="pl-3">{{theme()}}</p>
+          <p class="pl-3">{{countTest()}}</p>
 
         </div>
 
         <div class="flex justify-content-between align-items-center">
           <p-button
             styleClass="p-button-rounded"
-            [icon]="themeConfig.icon"
+            [icon]="theme() === 'sega-green' ? 'pi pi-moon': 'pi pi-sun' "
             (click)="changeTheme()"
           />
         </div>
@@ -49,38 +55,53 @@ class ThemeConfig {
   styles: [``],
 })
 export class HeaderComponent implements OnInit {
-  theme$: Observable<string>
+  theme$: Observable<string>;
   private themeService = inject(ThemeService);
+  private injector = inject(Injector);
+  countTest = signal(0);
 
   constructor(
     private storeTheme: Store<{ theme: string }>
   ) {
-    this.theme$ = storeTheme.pipe(select('theme'))
+    this.theme$ = this.storeTheme.pipe(select('theme'));
   }
 
    // setTheme$: Observable<boolean>
   check = signal<boolean>(false);
-  // theme$ = this.store.select(selectDarkTheme);
-  themeConfig = new ThemeConfig()
-  ngOnInit(): void {
-    this.themeService.switchTheme(this.themeConfig.theme);
-  }
+  theme = signal<string>('sega-green');
 
+  themeConfig = new ThemeConfig();
+
+  ngOnInit(): void {
+    const storageValue = localStorage.getItem('theme');
+
+    if(storageValue) {
+      this.theme.set(storageValue);
+    } else {
+      this.theme$.subscribe(value => this.theme.set(value));
+    }
+
+    this.themeService.switchTheme(this.theme());
+    if(this.theme() === 'vela-green') this.check.set(true);
+  }
 
   changeTheme(): void {
     this.themeConfig = new ThemeConfig();
     this.check.set(!this.check());
 
-    // this.storeTheme.dispatch(darkTheme())
+    effect(() => {
+      localStorage.setItem('theme', this.theme());
+      this.themeService.switchTheme(this.theme());
 
-    // this.themeConfig = this.check()
-    //   ? { theme: 'vela-green', icon: 'pi pi-sun' }
-    //   : { theme: 'saga-green', icon: 'pi pi-moon' };
+    }, {injector: this.injector});
+
+    this.theme$.subscribe(value => {
+      this.theme.set(value);
+    });
 
     this.check()
-      ? this.storeTheme.dispatch(darkTheme())
-      : this.storeTheme.dispatch(lightTheme())
-
-    // this.themeService.switchTheme();
+    ? this.storeTheme.dispatch(darkTheme())
+    : this.storeTheme.dispatch(lightTheme());
   }
+
 }
