@@ -10,10 +10,14 @@
 
 import { createReducer, on } from "@ngrx/store";
 
-import { darkTheme, decrement, increment, lightTheme } from "./actions";
-
+import { UpdateTheme, decrement, increment, } from "./actions";
+export interface themeType {
+  theme: string;
+}
 export const initialState = 0;
-export const initialTheme = 'saga-green';
+export const initialTheme: themeType = {
+  theme: 'saga-green'
+};
 
 const _counterReducer = createReducer(
   initialState,
@@ -23,14 +27,13 @@ const _counterReducer = createReducer(
 
 const _themeReducer = createReducer(
   initialTheme,
-  on(lightTheme, state => 'saga-green'),
-  on(darkTheme, state => 'vela-green')
+  on(UpdateTheme, (state, {theme}) => ({...state, theme})),
 );
 
 export function counterReducer(state: any, action: any) {
   return _counterReducer(state, action);
 }
 
-export function  themeReducer(state: any, action: any) {
+export function  themeReducer(state: any, action: any): themeType {
   return _themeReducer(state, action);
 }

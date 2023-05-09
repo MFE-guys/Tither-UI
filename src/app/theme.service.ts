@@ -18,7 +18,7 @@ export class ThemeService {
 
         // themeLink.href = `${localStorage.getItem('theme')}.css`;
 
-        themeLink.href = `${theme}.css`;
+      themeLink.href = `${theme}.css`;
 
     }
   }

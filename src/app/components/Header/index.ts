@@ -1,7 +1,8 @@
 import { Component, inject, signal, OnInit, effect, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { darkTheme, decrement, increment, lightTheme } from 'src/app/store/actions';
+import { decrement, increment, UpdateTheme } from 'src/app/store/actions';
+import { themeType } from 'src/app/store';
 
 import { async, Observable } from 'rxjs';
 
@@ -35,7 +36,7 @@ class ThemeConfig {
       >
         <div class="flex flex-row items-center">
           <span class="font-bold">TITHER</span>
-          <p>{{theme$ | async}}</p>
+          <!-- <p>{{theme$ | async}}</p> -->
           <p class="pl-3">{{theme()}}</p>
           <p class="pl-3">{{countTest()}}</p>
 
@@ -55,34 +56,33 @@ class ThemeConfig {
   styles: [``],
 })
 export class HeaderComponent implements OnInit {
-  theme$: Observable<string>;
   private themeService = inject(ThemeService);
   private injector = inject(Injector);
-  countTest = signal(0);
+  private storeTheme = inject(Store<{ theme: string }>);
 
-  constructor(
-    private storeTheme: Store<{ theme: string }>
-  ) {
-    this.theme$ = this.storeTheme.pipe(select('theme'));
-  }
-
-   // setTheme$: Observable<boolean>
   check = signal<boolean>(false);
-  theme = signal<string>('sega-green');
+  theme = signal<string>('saga-green');
+  countTest = signal(0);
 
   themeConfig = new ThemeConfig();
 
   ngOnInit(): void {
+    let choice: themeType;
+
+    this.storeTheme.pipe(select('theme'))
+      .subscribe((value) => {
+        const test = JSON.stringify(value);
+        choice = JSON.parse(test);
+
+        this.theme.set(choice.theme);
+      });
+
     const storageValue = localStorage.getItem('theme');
 
-    if(storageValue) {
-      this.theme.set(storageValue);
-    } else {
-      this.theme$.subscribe(value => this.theme.set(value));
-    }
+    if(storageValue) this.theme.set(storageValue);
+    if(this.theme() === 'saga-green') this.check.set(true);
 
     this.themeService.switchTheme(this.theme());
-    if(this.theme() === 'vela-green') this.check.set(true);
   }
 
   changeTheme(): void {
@@ -95,13 +95,9 @@ export class HeaderComponent implements OnInit {
 
     }, {injector: this.injector});
 
-    this.theme$.subscribe(value => {
-      this.theme.set(value);
-    });
-
     this.check()
-    ? this.storeTheme.dispatch(darkTheme())
-    : this.storeTheme.dispatch(lightTheme());
+    ? this.storeTheme.dispatch(UpdateTheme({theme: 'saga-green'}))
+    : this.storeTheme.dispatch(UpdateTheme({theme: 'vela-green'}));
   }
 
 }
