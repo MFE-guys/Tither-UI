@@ -1,8 +1,6 @@
-import { Component, inject, signal, OnInit, effect, Injector } from '@angular/core';
+import { Component, inject, signal, OnInit, Injector, WritableSignal, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { UpdateTheme } from 'src/app/store/actions';
-import { themeType } from 'src/app/store';
 
 import { ButtonModule } from 'primeng/button';
 import { select, Store } from '@ngrx/store';
@@ -21,14 +19,14 @@ import { ThemeService } from '../../theme.service';
       >
         <div class="flex flex-row items-center">
           <span class="font-bold">TITHER</span>
-          <p class="pl-3">{{theme()}}</p>
+          <p class="pl-3">{{theme}}</p>
 
         </div>
 
         <div class="flex justify-content-between align-items-center">
           <p-button
             styleClass="p-button-rounded"
-            [icon]="check() ? 'pi pi-moon': 'pi pi-sun' "
+            [icon]="check() ? 'pi pi-sun' : 'pi pi-moon'"
             (click)="changeTheme()"
           />
         </div>
@@ -40,44 +38,29 @@ import { ThemeService } from '../../theme.service';
 })
 export class HeaderComponent implements OnInit {
   private themeService = inject(ThemeService);
-  private injector = inject(Injector);
   private storeTheme = inject(Store<{ theme: string }>);
 
   check = signal<boolean>(false);
-  theme = signal<string>('saga-green');
-  countTest = signal(0);
+  initialTheme = signal<string>('saga-green');
+
+  theme: string = '';
+  themeKey = 'theme'
 
   ngOnInit(): void {
-    let choice: themeType;
+    this.themeService.startedTheme(this.themeKey)
 
-    this.storeTheme.pipe(select('theme'))
+    this.storeTheme.pipe(select(this.themeKey))
       .subscribe((value) => {
-        const test = JSON.stringify(value);
-        choice = JSON.parse(test);
-
-        this.theme.set(choice.theme);
+        this.theme = value
+        if(value === 'vela-green') this.check.update(() => true)
       });
-
-    const storageValue = localStorage.getItem('theme');
-
-    if(storageValue) this.theme.set(storageValue);
-    if(this.theme() === 'saga-green') this.check.set(true);
-
-    this.themeService.switchTheme(this.theme());
   }
 
   changeTheme(): void {
-    this.check.set(!this.check());
+    this.check.update(() => !this.check());
 
-    effect(() => {
-      localStorage.setItem('theme', this.theme());
-      this.themeService.switchTheme(this.theme());
+    this.theme = this.check() ? 'vela-green' : 'saga-green';
 
-    }, {injector: this.injector});
-
-    this.check()
-    ? this.storeTheme.dispatch(UpdateTheme({theme: 'saga-green'}))
-    : this.storeTheme.dispatch(UpdateTheme({theme: 'vela-green'}));
+    this.themeService.switchTheme(this.themeKey, this.theme);
   }
-
 }
