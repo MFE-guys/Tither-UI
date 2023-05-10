@@ -1,28 +1,13 @@
 import { Component, inject, signal, OnInit, effect, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { decrement, increment, UpdateTheme } from 'src/app/store/actions';
+import { UpdateTheme } from 'src/app/store/actions';
 import { themeType } from 'src/app/store';
-
-import { async, Observable } from 'rxjs';
 
 import { ButtonModule } from 'primeng/button';
 import { select, Store } from '@ngrx/store';
 
 import { ThemeService } from '../../theme.service';
-
-// import { ThemeState } from 'src/app/store/reducers/theme.reducer';
-// import { selectDarkTheme } from 'src/app/store/reducers';
-
-class ThemeConfig {
-  icon: 'pi pi-sun' | 'pi pi-moon';
-  theme: 'saga-green' | 'vela-green';
-
-  constructor() {
-    this.icon = 'pi pi-moon';
-    this.theme = 'saga-green';
-  }
-}
 
 
 @Component({
@@ -36,16 +21,14 @@ class ThemeConfig {
       >
         <div class="flex flex-row items-center">
           <span class="font-bold">TITHER</span>
-          <!-- <p>{{theme$ | async}}</p> -->
           <p class="pl-3">{{theme()}}</p>
-          <p class="pl-3">{{countTest()}}</p>
 
         </div>
 
         <div class="flex justify-content-between align-items-center">
           <p-button
             styleClass="p-button-rounded"
-            [icon]="theme() === 'sega-green' ? 'pi pi-moon': 'pi pi-sun' "
+            [icon]="check() ? 'pi pi-moon': 'pi pi-sun' "
             (click)="changeTheme()"
           />
         </div>
@@ -63,8 +46,6 @@ export class HeaderComponent implements OnInit {
   check = signal<boolean>(false);
   theme = signal<string>('saga-green');
   countTest = signal(0);
-
-  themeConfig = new ThemeConfig();
 
   ngOnInit(): void {
     let choice: themeType;
@@ -86,7 +67,6 @@ export class HeaderComponent implements OnInit {
   }
 
   changeTheme(): void {
-    this.themeConfig = new ThemeConfig();
     this.check.set(!this.check());
 
     effect(() => {
