@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { PrimeNGConfig } from 'primeng/api';
+import {ButtonModule} from "primeng/button";
 
 import { HeaderComponent } from './components/Header';
 import {ThemeService} from "./theme.service";
-import {ButtonModule} from "primeng/button";
 
-
-
-// @ts-ignore
 @Component({
   selector: 'app-root',
   imports: [
@@ -17,7 +14,9 @@ import {ButtonModule} from "primeng/button";
   ],
   standalone: true,
   template: `
+  <main class="card">
     <app-header />
+  </main>
   `
 })
 export class AppComponent implements OnInit {

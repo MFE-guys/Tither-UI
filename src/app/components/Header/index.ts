@@ -1,12 +1,14 @@
-import { Component, inject, signal, OnInit, Injector, WritableSignal, effect } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgClass } from '@angular/common';
+import { Constants } from 'src/app/utils/constants';
 
 import { ButtonModule } from 'primeng/button';
 import { select, Store } from '@ngrx/store';
 
 import { ThemeService } from '../../theme.service';
 
+const { dark, light } = Constants.theme;
 
 @Component({
   selector: 'app-header',
@@ -19,48 +21,44 @@ import { ThemeService } from '../../theme.service';
       >
         <div class="flex flex-row items-center">
           <span class="font-bold">TITHER</span>
-          <p class="pl-3">{{theme}}</p>
-
         </div>
 
         <div class="flex justify-content-between align-items-center">
           <p-button
-            styleClass="p-button-rounded"
-            [icon]="check() ? 'pi pi-sun' : 'pi pi-moon'"
+            styleClass="p-button-rounded p-button-text"
+            [icon]="check() ? 'pi pi-moon' : 'pi pi-sun'"
             (click)="changeTheme()"
           />
         </div>
       </div>
-
     </header>
   `,
-  styles: [``],
 })
 export class HeaderComponent implements OnInit {
   private themeService = inject(ThemeService);
   private storeTheme = inject(Store<{ theme: string }>);
 
-  check = signal<boolean>(false);
-  initialTheme = signal<string>('saga-green');
+  theme?: string;
+  themeKey = 'theme';
 
-  theme: string = '';
-  themeKey = 'theme'
+  check = signal<boolean>(false);
+  initialTheme = signal<string>(light);
 
   ngOnInit(): void {
-    this.themeService.startedTheme(this.themeKey)
+    this.themeService.startedTheme(this.themeKey);
 
     this.storeTheme.pipe(select(this.themeKey))
       .subscribe((value) => {
-        this.theme = value
-        if(value === 'vela-green') this.check.update(() => true)
+        this.theme = value;
+        if(value === dark) this.check.update(() => true);
       });
   }
 
   changeTheme(): void {
     this.check.update(() => !this.check());
 
-    this.theme = this.check() ? 'vela-green' : 'saga-green';
+    this.theme = this.check() ? dark : light;
 
-    this.themeService.switchTheme(this.themeKey, this.theme);
+    this.themeService.themeEffect(this.themeKey, this.theme);
   }
 }
