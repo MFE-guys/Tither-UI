@@ -1,9 +1,16 @@
-import { Inject, Injectable, Injector, effect, inject, signal } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  Injector,
+  effect,
+  inject,
+  signal
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 
-import { darkTheme, lightTheme } from './store/actions';
+import { themeActions } from './store/actions';
 
 @Injectable({
   providedIn: 'root'
@@ -18,19 +25,23 @@ export class ThemeService {
   startedTheme(key: string): void {
     const storageValue = localStorage.getItem(key);
 
-    if(storageValue) this.themeEffect(key, storageValue);
+    if (storageValue) this.themeEffect(key, storageValue);
     else this.themeEffect(key, this.state());
   }
 
   themeEffect(key: string, initialState: string): void {
     this.state.set(initialState);
 
-    effect(() => {
-      localStorage.setItem(key, this.state());
-    }, { injector: this.injector });
+    effect(
+      () => {
+        localStorage.setItem(key, this.state());
+      },
+      { injector: this.injector }
+    );
 
-    if(this.state() === 'saga-green') this.storeTheme.dispatch(lightTheme());
-    else this.storeTheme.dispatch(darkTheme());
+    if (this.state() === 'saga-green')
+      this.storeTheme.dispatch(themeActions.lightTheme());
+    else this.storeTheme.dispatch(themeActions.darkTheme());
 
     this.switchTheme();
   }

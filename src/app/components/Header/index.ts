@@ -32,7 +32,7 @@ const { dark, light } = Constants.theme;
         </div>
       </div>
     </header>
-  `,
+  `
 })
 export class HeaderComponent implements OnInit {
   private themeService = inject(ThemeService);
@@ -47,11 +47,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.themeService.startedTheme(this.themeKey);
 
-    this.storeTheme.pipe(select(this.themeKey))
-      .subscribe((value) => {
-        this.theme = value;
-        if(value === dark) this.check.update(() => true);
-      });
+    this.storeTheme.pipe(select(this.themeKey)).subscribe(value => {
+      this.theme = value;
+      if (value === dark) this.check.update(() => true);
+    });
   }
 
   changeTheme(): void {

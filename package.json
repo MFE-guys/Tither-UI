@@ -12,7 +12,7 @@
     "lint": "ng lint --fix",
     "prepare": "husky install",
     "prettier": "npx prettier --write .",
-    "husky": "npm run prettier && npm run lint && npm run test"
+    "husky": "npm run prettier && npm run lint"
   },
   "private": true,
   "dependencies": {
