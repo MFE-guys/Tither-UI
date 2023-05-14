@@ -11,7 +11,9 @@ import { DOCUMENT } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import { themeActions } from './store/actions';
+import { Constants } from './utils/constants';
 
+const { light } = Constants.theme;
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +22,7 @@ export class ThemeService {
   private storeTheme = inject(Store<{ theme: string }>);
 
   injector = inject(Injector);
-  state = signal<string>('saga-green');
+  state = signal<string>(light);
 
   startedTheme(key: string): void {
     const storageValue = localStorage.getItem(key);
@@ -39,7 +41,7 @@ export class ThemeService {
       { injector: this.injector }
     );
 
-    if (this.state() === 'saga-green')
+    if (this.state() === light)
       this.storeTheme.dispatch(themeActions.lightTheme());
     else this.storeTheme.dispatch(themeActions.darkTheme());
 
