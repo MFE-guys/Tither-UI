@@ -30,6 +30,6 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "strictOutputEventTypes": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   }
 }

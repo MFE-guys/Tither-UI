@@ -17,7 +17,7 @@ const { dark, light } = Constants.theme;
   template: `
     <header>
       <div
-        class="w-60rem m-auto flex justify-content-between align-items-center py-4 px-4"
+        class="w-80rem m-auto flex justify-content-between align-items-center py-4 px-4"
       >
         <div class="flex flex-row items-center">
           <span class="font-bold">TITHER</span>

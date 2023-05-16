@@ -13,6 +13,14 @@
   box-sizing: border-box;
 }
 
+.card {
+  border-radius: 8px;
+  background: var(--surface-card);
+  padding: 16px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
 html {
   height: 100%;
 }

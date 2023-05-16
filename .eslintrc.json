@@ -16,7 +16,6 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
-        // "plugin:prettier/recommended"
       ],
       "env": {
         "es6": true
@@ -153,11 +152,18 @@
             "type": "element",
             "prefix": [
               "app",
-              "search",
-              "dynamic",
-              "ngx",
-              "solution",
-              "quote"
+              "page"
+            ],
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/component-class-suffix": [
+          "error",
+          {
+            "type": "class",
+            "prefix": [
+              "component",
+              "page"
             ],
             "style": "kebab-case"
           }
