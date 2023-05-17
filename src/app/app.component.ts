@@ -10,10 +10,12 @@ import { DashboardPage } from './pages/Dashboard';
   imports: [HeaderComponent, DashboardPage],
   standalone: true,
   template: `
-    <app-header />
-    <main class="w-80rem m-auto px-4">
-      <page-dashboard />
-    </main>
+    <div>
+      <app-header />
+      <main class="w-80rem m-auto px-4">
+        <page-dashboard />
+      </main>
+    </div>
   `
 })
 export class AppComponent implements OnInit {

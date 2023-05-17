@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Constants } from 'src/app/utils/constants';
 
 import { ButtonModule } from 'primeng/button';
@@ -13,7 +13,7 @@ const { dark, light } = Constants.theme;
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [FormsModule, ButtonModule, NgClass, AsyncPipe],
+  imports: [FormsModule, ButtonModule, AsyncPipe],
   template: `
     <header>
       <div

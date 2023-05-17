@@ -1,6 +1,7 @@
 import { NgForOf } from '@angular/common';
+import { Component } from '@angular/core';
+
 import { CardComponent } from './../../components/Card/index';
-import { Component } from "@angular/core";
 
 @Component({
   selector: 'page-dashboard',
@@ -9,22 +10,22 @@ import { Component } from "@angular/core";
   template: `
     <div>
       <span class="font-bold">Dashboard</span>
-      <div class="grid gap-3">
+      <div class="grid gap-3 mt-3">
         <app-card
-          *ngFor="let card of cardMock"
-          class="col min-w-max mt-3"
+          *ngFor="let card of cardConfig"
+          class="col min-w-max "
           [label]="card.title"
           [value]="card.value"
+          [type]="card.type"
         />
       </div>
     </div>
   `
 })
-
-export class DashboardPage{
-  cardMock = [
-    { title: 'Incoming', value: 150 },
-    { title: 'Expenses', value: 50 },
-    { title: 'Amount', value: 100 },
-  ]
+export class DashboardPage {
+  cardConfig = [
+    { title: 'Incoming', value: 150, type: 'incoming' },
+    { title: 'Expenses', value: 50, type: 'expense' },
+    { title: 'Amount', value: 100, type: 'amount' }
+  ];
 }

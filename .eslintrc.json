@@ -118,22 +118,6 @@
               {
                 "pattern": "rxjs/**",
                 "group": "unknown"
-              },
-              {
-                "pattern": "@internal-library",
-                "group": "builtin"
-              },
-              {
-                "pattern": "@shared/**",
-                "group": "parent"
-              },
-              {
-                "pattern": "@quote/**",
-                "group": "parent"
-              },
-              {
-                "pattern": "@solution/**",
-                "group": "parent"
               }
             ],
             "pathGroupsExcludedImportTypes": ["type", "object"]
@@ -160,12 +144,10 @@
         "@angular-eslint/component-class-suffix": [
           "error",
           {
-            "type": "class",
-            "prefix": [
-              "component",
-              "page"
-            ],
-            "style": "kebab-case"
+            "suffixes": [
+              "Component",
+              "Page"
+            ]
           }
         ],
         "@typescript-eslint/member-ordering": 0,
