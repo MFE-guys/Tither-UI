@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 
 import { PrimeNGConfig } from 'primeng/api';
 
-import { HeaderComponent } from './components/Header';
+import { HeaderComponent } from './core/components/Header';
 import { DashboardPage } from './pages/Dashboard';
 
 @Component({

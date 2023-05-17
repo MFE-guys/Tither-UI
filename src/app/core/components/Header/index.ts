@@ -2,11 +2,10 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { Constants } from 'src/app/utils/constants';
+import { ThemeService } from 'src/app/theme.service';
 
 import { ButtonModule } from 'primeng/button';
 import { select, Store } from '@ngrx/store';
-
-import { ThemeService } from '../../theme.service';
 
 const { dark, light } = Constants.theme;
 

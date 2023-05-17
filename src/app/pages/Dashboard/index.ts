@@ -1,7 +1,7 @@
 import { NgForOf } from '@angular/common';
 import { Component } from '@angular/core';
 
-import { CardComponent } from './../../components/Card/index';
+import { CardComponent } from '../../core/components/Card/index';
 
 @Component({
   selector: 'page-dashboard',
