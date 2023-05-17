@@ -1,4 +1,4 @@
 {
-  "**/*.{js,ts}": ["npm run prettier", "npm run lint"],
+  "**/*.{js,ts}": ["npx prettier --write", "npx eslint --check"],
   "**/*.{html,json}": ["npm run prettier"]
 }

@@ -4,21 +4,14 @@
 @import 'primeflex/primeflex.scss';
 
 // CUSTOM THEMES IMPORTS
-@import 'assets/theme/sizes';
+@import 'assets/theme/_sizes';
+@import 'assets/theme/_classes';
 
 // PROJECTS CONFIG TO DEFAULT
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-.card {
-  border-radius: 8px;
-  background: var(--surface-card);
-  padding: 16px;
-  box-sizing: border-box;
-  margin-bottom: 16px;
 }
 
 html {
