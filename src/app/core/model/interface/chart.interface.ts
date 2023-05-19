@@ -20,11 +20,13 @@ interface LegendModel extends DisplayModel {
   labels?: string;
 }
 
+interface TooltipModel {
+  enabled: boolean;
+}
+
 interface PluginsModel {
   legend: LegendModel;
-  tooltip: {
-    enabled: boolean;
-  };
+  tooltip: TooltipModel;
 }
 
 interface PointModel {
