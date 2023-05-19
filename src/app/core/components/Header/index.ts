@@ -25,7 +25,7 @@ const { dark, light } = Constants.theme;
         <div class="flex justify-content-between align-items-center">
           <p-button
             styleClass="p-button-rounded p-button-text"
-            [icon]="check() ? 'pi pi-moon' : 'pi pi-sun'"
+            [icon]="check() ? 'pi pi-sun' : 'pi pi-moon'"
             (click)="changeTheme()"
           />
         </div>
