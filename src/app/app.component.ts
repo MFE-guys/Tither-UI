@@ -1,13 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { NgIf } from '@angular/common';
 
 import { PrimeNGConfig } from 'primeng/api';
 
 import { HeaderComponent } from './core/components/Header';
 import { DashboardPage } from './pages/Dashboard';
+import { CardComponent } from './core/components/Card';
 
 @Component({
   selector: 'app-root',
-  imports: [HeaderComponent, DashboardPage],
+  imports: [HeaderComponent, DashboardPage, CardComponent, NgIf],
   standalone: true,
   template: `
     <div>
