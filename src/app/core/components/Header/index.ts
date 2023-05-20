@@ -18,7 +18,8 @@ const { dark, light } = Constants.theme;
       <div
         class="w-80rem m-auto flex justify-content-between align-items-center py-4 px-4"
       >
-        <div class="flex flex-row items-center">
+        <div class="flex flex-row align-items-center text-xl gap-1">
+          <i class="pi pi-wallet text-primary font-bold"></i>
           <span class="font-bold">TITHER</span>
         </div>
 

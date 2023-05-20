@@ -8,7 +8,8 @@ import {
   ChangeDetectorRef,
   ViewChild,
   ElementRef,
-  AfterViewInit
+  AfterViewInit,
+  inject
 } from '@angular/core';
 
 import { ChartModule } from 'primeng/chart';
@@ -48,20 +49,19 @@ import {
   `
 })
 export class CardComponent implements OnInit, AfterViewInit {
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
   @ViewChild('cardComponent', { static: true }) cardComponent!: ElementRef;
 
-  @Input() label: string = 'card';
-  @Input() value: number = 0;
+  @Input() label = 'card';
+  @Input() value = 0;
   @Input() type?: string;
   @Input() transactions: number[] = [];
 
   cardConfig = [Incoming, Expense, Amount];
   configs = signal<CardType | undefined>(Incoming);
-
   data?: DataChartModel;
   options?: OptionsChartModel;
-
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.configs.set(this.cardConfig.find(config => config.type === this.type));
