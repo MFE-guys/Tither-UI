@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { PrimeNGConfig } from 'primeng/api';
 
@@ -11,7 +11,7 @@ import { HeaderComponent } from './components/Header';
   template: `<app-header />`
 })
 export class AppComponent implements OnInit {
-  private primengConfig = Inject(PrimeNGConfig);
+  private primengConfig = inject(PrimeNGConfig);
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
