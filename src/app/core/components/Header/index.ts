@@ -24,12 +24,6 @@ const { dark, light } = Constants.theme;
         </div>
 
         <div class="flex justify-content-between align-items-center">
-
-         <div class="card flex justify-content-center">
-            <p-button label="Check" icon="pi pi-check"></p-button>
-        </div>
-
-
           <p-button
             styleClass="p-button-rounded p-button-text"
             [icon]="check() ? 'pi pi-sun' : 'pi pi-moon'"
