@@ -1,4 +1,4 @@
-import { NgForOf } from '@angular/common';
+import { CommonModule, NgForOf } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { CardComponent } from '../../core/components/Card/index';
@@ -6,19 +6,19 @@ import { CardComponent } from '../../core/components/Card/index';
 @Component({
   selector: 'page-dashboard',
   standalone: true,
-  imports: [CardComponent, NgForOf],
+  imports: [CardComponent, CommonModule, NgForOf],
   template: `
     <div>
       <span class="font-bold">Dashboard</span>
       <div class="grid gap-3 mt-3">
-          <app-card
-            *ngFor="let card of cardConfig"
-            class="col min-w-max"
-            [label]="card.title"
-            [value]="card.value"
-            [type]="card.type"
-            [transactions]="card.transactions"
-          />
+        <app-card
+          *ngFor="let card of cardConfig"
+          class="col min-w-max"
+          [label]="card.title"
+          [value]="card.value"
+          [type]="card.type"
+          [transactions]="card.transactions"
+        />
       </div>
     </div>
   `

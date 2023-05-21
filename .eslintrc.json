@@ -22,6 +22,7 @@
       },
       "plugins": ["@angular-eslint", "unused-imports", "import"],
       "rules": {
+        "@angular-eslint/no-input-rename": "off",
         "@angular-eslint/no-attribute-decorator": "error",
         "@angular-eslint/no-conflicting-lifecycle": "off",
         "@angular-eslint/no-forward-ref": "off",
