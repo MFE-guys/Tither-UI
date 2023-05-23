@@ -34,16 +34,7 @@ const { dark, light } = Constants.theme;
           <span class="font-bold">TITHER</span>
         </div>
 
-        <div class="flex justify-content-between align-items-center gap-3">
-          <div class="relative">
-            <p-button
-              styleClass="p-button-rounded p-button-text"
-              icon="pi pi-table"
-              pstyleclass="@next"
-              (onClick)="handleOpenMenu()"
-            />
-          </div>
-
+        <div class="flex justify-content-between align-items-center">
           <p-button
             styleClass="p-button-rounded p-button-text"
             [icon]="check() ? 'pi pi-sun' : 'pi pi-moon'"
