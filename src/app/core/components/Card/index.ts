@@ -27,15 +27,16 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
-      class="card flex align-items-center justify-content-around scalein animation-duration-1000"
+      style="width: 95%; max-width: 30rem"
+      class="card flex flex-wrap align-items-center justify-content-around scalein animation-duration-1000"
     >
       <div class="flex align-items-center gap-3">
         <div [ngClass]="'bg-' + configs()?.color" class="border-circle">
           <i [ngClass]="configs()?.icon" class="pi p-2 text-0"></i>
         </div>
-        <div class="py-2 flex flex-column">
+        <div style="min-width: 9rem" class="py-2 flex flex-column">
           <span class="mb-2 text-sm text-600">{{ cardLabel }}</span>
-          <span class="font-bold text-3xl">{{ cardValue | currency }}</span>
+          <span class="font-bold text-3xl ">{{ cardValue | currency }}</span>
         </div>
       </div>
 

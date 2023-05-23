@@ -10,7 +10,7 @@ import { CardComponent } from '../../core/components/Card/index';
   template: `
     <div>
       <span class="font-bold">Dashboard</span>
-      <div class="grid gap-3 mt-3">
+      <div class="grid mt-3">
         <app-card
           *ngFor="let card of cardConfig"
           class="col min-w-max"
