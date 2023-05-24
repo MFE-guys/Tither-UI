@@ -27,7 +27,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
-      class="card flex flex-wrap align-items-center justify-content-around scalein animation-duration-1000"
+      class="flex min-w-full flex-row__media align-items-center justify-content-around scalein animation-duration-1000"
     >
       <div class="flex align-items-center gap-3">
         <div [ngClass]="'bg-' + configs()?.color" class="border-circle">
@@ -39,14 +39,21 @@ import {
         </div>
       </div>
 
-      <p-chart
-        class="max-w-30-per"
-        type="line"
-        [data]="data"
-        [options]="options"
-      />
+      <div class="max-w-7rem">
+        <p-chart type="line" [data]="data" [options]="options" />
+      </div>
     </div>
-  `
+  `,
+  styles: [
+    `
+      .flex-row__media {
+        @media (max-width: 400px) {
+          flex-direction: column;
+          text-overflow: ellipse;
+        }
+      }
+    `
+  ]
 })
 export class CardComponent implements OnInit, AfterViewInit {
   private changeDetectorRef = inject(ChangeDetectorRef);

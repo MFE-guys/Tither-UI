@@ -12,7 +12,7 @@ import { CardComponent } from './core/components/Card';
   imports: [HeaderComponent, DashboardPage, CardComponent, NgIf],
   standalone: true,
   template: `
-    <div>
+    <div class="min-w-15rem">
       <app-header />
       <main class="w-80rem m-auto px-4">
         <page-dashboard />
