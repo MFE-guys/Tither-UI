@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 
 import { PrimeNGConfig } from 'primeng/api';
 
@@ -9,7 +9,7 @@ import { CardComponent } from './core/components/Card';
 
 @Component({
   selector: 'app-root',
-  imports: [HeaderComponent, DashboardPage, CardComponent, NgIf],
+  imports: [HeaderComponent, DashboardPage, CardComponent, CommonModule],
   standalone: true,
   template: `
     <div class="min-w-15rem">

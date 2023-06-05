@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
 import { Constants } from 'src/app/utils/constants';
 import { ThemeService } from 'src/app/core/services/theme.service';
 
@@ -18,12 +18,11 @@ const { dark, light } = Constants.theme;
   selector: 'app-header',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     ButtonModule,
-    AsyncPipe,
     ToolbarModule,
     SplitButtonModule,
-    NgClass,
     DropdownMenuComponent
   ],
   template: `
@@ -34,19 +33,22 @@ const { dark, light } = Constants.theme;
           <span class="font-bold">TITHER</span>
         </div>
 
-        <div class="flex justify-content-between align-items-center">
-          <p-button
-            styleClass="p-button-rounded p-button-text"
-            icon="pi pi-table"
-            (onClick)="changeTheme()"
-          />
+        <div class="flex justify-content-between align-items-center gap-1">
+          <div>
+            <p-button
+              styleClass="p-button-rounded p-button-text"
+              icon="pi pi-table"
+              (onClick)="handleOpenMenu()"
+            />
+            <app-dropdown-menu [hidden]="openMenu()" />
+          </div>
+
           <p-button
             styleClass="p-button-rounded p-button-text"
             [icon]="check() ? 'pi pi-sun' : 'pi pi-moon'"
             (onClick)="changeTheme()"
           />
         </div>
-        <!-- <app-dropdown-menu /> -->
       </div>
     </header>
   `

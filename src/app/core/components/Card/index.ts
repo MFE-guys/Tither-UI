@@ -23,7 +23,7 @@ import {
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CurrencyPipe, NgClass, ChartModule, CommonModule],
+  imports: [CurrencyPipe, ChartModule, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

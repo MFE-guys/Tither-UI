@@ -6,7 +6,7 @@ import { CardComponent } from '../../core/components/Card/index';
 @Component({
   selector: 'page-dashboard',
   standalone: true,
-  imports: [CardComponent, CommonModule, NgForOf],
+  imports: [CardComponent, CommonModule],
   template: `
     <div style="position: relative; height: 90vh" class="max-h-full">
       <span class="font-bold">Dashboard</span>
