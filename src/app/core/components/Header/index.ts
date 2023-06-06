@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Constants } from 'src/app/utils/constants';
 import { ThemeService } from 'src/app/core/services/theme.service';
 
@@ -40,7 +40,7 @@ const { dark, light } = Constants.theme;
               icon="pi pi-table"
               (onClick)="handleOpenMenu()"
             />
-            <app-dropdown-menu [hidden]="openMenu()" />
+            <app-dropdown-menu [hidden]="openMenu()" [routes]="routes" />
           </div>
 
           <p-button
@@ -65,6 +65,7 @@ export class HeaderComponent implements OnInit {
 
   initialTheme = signal<string>(light);
   items!: MenuItem[];
+  routes = [1, 2, 3, 4, 5, 6, 9, 7, 8, 9, 10, 10, 10, 101, 23];
 
   ngOnInit(): void {
     this.themeService.startedTheme(this.themeKey);

@@ -1,4 +1,4 @@
-import { CommonModule, CurrencyPipe, NgClass } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
