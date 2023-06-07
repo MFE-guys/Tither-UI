@@ -2,6 +2,19 @@
   border-radius: 8px;
   background: var(--surface-card);
   padding: 1rem;
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 2px 1px -1px var(--surface-c),
+    0px 1px 3px 0px var(--surface-c), 0px 1px 3px 0px var(--surface-c);
+}
+
+.dropdown {
+  position: absolute;
+  margin-top: 16px;
+  margin-right: 28px;
+  margin-left: 28px;
+  max-height: calc(-65px + 100vh);
+  padding: 1rem;
+  background: var(--surface-overlay);
+  border-radius: 8px;
+  box-shadow: 0px 2px 3px -2px var(--surface-d),
+    0px 1px 5px 2px var(--surface-c), 0px 1px 3px 2px var(--surface-c);
 }

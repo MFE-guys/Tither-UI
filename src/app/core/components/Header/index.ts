@@ -11,6 +11,7 @@ import { MenuItem } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
 
 import { DropdownMenuComponent } from '../DropodownMenu';
+import { DropdownModel } from '../../model/interface/dropdown.interface';
 
 const { dark, light } = Constants.theme;
 
@@ -65,7 +66,28 @@ export class HeaderComponent implements OnInit {
 
   initialTheme = signal<string>(light);
   items!: MenuItem[];
-  routes = [1, 2, 3, 4, 5, 6, 9, 7, 8, 9, 10, 10, 10, 101, 23];
+  routes: DropdownModel[] = [
+    {
+      label: 'Register',
+      icon: 'pi pi-id-card',
+      color: 'p-button'
+    },
+    {
+      label: 'Router 2',
+      icon: 'pi pi-id-card',
+      color: 'p-button-info'
+    },
+    {
+      label: 'Router 3',
+      icon: 'pi pi-id-card',
+      color: 'p-button-success'
+    },
+    {
+      label: 'Router 4',
+      icon: 'pi pi-id-card',
+      color: 'p-button-secondary'
+    }
+  ];
 
   ngOnInit(): void {
     this.themeService.startedTheme(this.themeKey);
