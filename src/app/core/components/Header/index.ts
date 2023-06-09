@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Constants } from 'src/app/utils/constants';
 import { ThemeService } from 'src/app/core/services/theme.service';
+import { RouterLink, RouterModule } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
 import { select, Store } from '@ngrx/store';
@@ -24,15 +25,21 @@ const { dark, light } = Constants.theme;
     ButtonModule,
     ToolbarModule,
     SplitButtonModule,
-    DropdownMenuComponent
+    DropdownMenuComponent,
+    RouterModule,
+    RouterLink
   ],
   template: `
     <header class="w-80rem m-auto relative">
       <div class="flex justify-content-between align-items-center py-4 px-4">
-        <div class="flex flex-row align-items-center text-xl gap-1">
-          <i class="pi pi-wallet text-primary font-bold"></i>
+        <a
+          class="flex flex-row align-items-center text-xl gap-1
+            transition-colors transition-duration-200 hover:text-700"
+          [routerLink]="''"
+        >
+          <i class="pi pi-wallet text-primary"></i>
           <span class="font-bold">TITHER</span>
-        </div>
+        </a>
 
         <div class="flex justify-content-between align-items-center gap-1">
           <div>

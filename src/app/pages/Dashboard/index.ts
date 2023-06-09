@@ -8,12 +8,12 @@ import { CardComponent } from '../../core/components/Card/index';
   standalone: true,
   imports: [CardComponent, CommonModule],
   template: `
-    <div style="position: relative; height: 90vh" class="max-h-full">
+    <div class="relative">
       <span class="font-bold">Dashboard</span>
       <div class="m-0 grid max-w-full mt-3 gap-3">
         <app-card
           *ngFor="let card of cardConfig"
-          class="card col "
+          class="card shadow-1 col"
           [label]="card.title"
           [value]="card.value"
           [type]="card.type"

@@ -26,8 +26,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-button {
+button,
+a {
   cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+
+  // transition: all 0.2s;
+  // &:hover {
+  //   color: var(--surface-600);
+  // }
 }
 
 body,
