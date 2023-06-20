@@ -88,7 +88,7 @@ interface StatusOptionsModel {
           </div>
         </div>
 
-        <div class="field mb-4 col-6 lg:col-3 md:col-3 sm:col-6">
+        <div class="field mb-4 col-12 lg:col-3 md:col-3 sm:col-6">
           <label
             for="memberType"
             htmlFor="memberType"
@@ -103,7 +103,7 @@ interface StatusOptionsModel {
           />
         </div>
 
-        <div class="field mb-4 col-6 lg:col-3 md:col-3 sm:col-6">
+        <div class="field mb-4 col-12 lg:col-3 md:col-3 sm:col-6">
           <label for="status" htmlFor="status" class="font-medium text-900"
             >Status</label
           >
@@ -130,9 +130,14 @@ interface StatusOptionsModel {
           </textarea>
         </div>
 
-        <div class="flex justify-content-end mt-3 col-12">
-          <p-button label="Submit" class="font-bold col-3 md:col-3 sm:col-3" />
-        </div>
+        <footer
+          class="flex justify-content-center mt-3 col-12 sm:justify-content-end"
+        >
+          <p-button
+            label="Save Decimate"
+            class="font-bold col-12 lg:w-10rem md:w-10rem sm:w-10rem"
+          />
+        </footer>
       </form>
     </div>
   `,
