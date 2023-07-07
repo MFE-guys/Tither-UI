@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
 import { PrimeNGConfig } from 'primeng/api';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { HeaderComponent } from './core/components/Header';
 import { DashboardPage } from './pages/Dashboard';
@@ -24,7 +25,6 @@ import { CardComponent } from './core/components/Card';
       <app-header />
       <main class="w-80rem m-auto px-4">
         <router-outlet></router-outlet>
-        <h1>test</h1>
       </main>
     </div>
   `

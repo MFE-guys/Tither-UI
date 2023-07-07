@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -15,6 +14,15 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {
+  RegisterMemberActions,
+  RegisteredMemberApiActions
+} from 'src/app/store/actions/register-member.actions';
+import { registerMemberSelector } from 'src/app/store/reducers/register-member.reducer';
+import { RegisterMemberRequiredProps } from 'src/app/core/model/interface/register-member.interface';
+import { RegisterMemberService } from 'src/app/core/services/register-member.service';
+
+import { Observable, first } from 'rxjs';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
@@ -22,8 +30,10 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
+import { Store, select } from '@ngrx/store';
 interface MemberTypeModel {
   name: string;
+  value: string;
 }
 
 interface StatusOptionsModel {
@@ -55,8 +65,18 @@ interface StatusOptionsModel {
       >
         <div class="field col-12 mb-4 flex flex-wrap">
           <label for="username" htmlFor="username" class="font-medium text-900"
-            >Username</label
-          >
+            >Username
+            <small
+              id="username-help"
+              [ngClass]="
+                formGroup.get('userName')?.invalid
+                  ? 'text-red-500'
+                  : 'text-green-500'
+              "
+            >
+              *
+            </small>
+          </label>
           <div class="p-input-icon-left ">
             <i class="pi pi-user"></i>
             <input
@@ -66,23 +86,22 @@ interface StatusOptionsModel {
               formControlName="userName"
             />
           </div>
-          <small
-            id="username-help"
-            class="mt-2 text-red-500"
-            *ngIf="
-              (formGroup.get('userName')?.invalid &&
-                formGroup.get('userName')?.dirty) ||
-              formGroup.get('userName')?.touched
-            "
-          >
-            *Provide your username.
-          </small>
         </div>
 
         <div class="field col-12 mb-4 lg:col-9 md:col-9 sm:col-7">
-          <label for="email" htmlFor="email" class="font-medium text-900"
-            >Email</label
-          >
+          <label for="email" htmlFor="email" class="font-medium text-900">
+            Email
+            <small
+              id="email-help"
+              [ngClass]="
+                formGroup.get('email')?.invalid
+                  ? 'text-red-500'
+                  : 'text-green-500'
+              "
+            >
+              *
+            </small>
+          </label>
           <div class="p-input-icon-left">
             <i class="pi pi-at"></i>
             <input
@@ -95,9 +114,19 @@ interface StatusOptionsModel {
         </div>
 
         <div class="field mb-4 col-12 lg:col-3 md:col-3 sm:col-5">
-          <label for="phone" htmlFor="phone" class="font-medium text-900"
-            >Phone</label
-          >
+          <label for="phone" htmlFor="phone" class="font-medium text-900">
+            Phone
+            <small
+              id="phone-help"
+              [ngClass]="
+                formGroup.get('phone')?.invalid
+                  ? 'text-red-500'
+                  : 'text-green-500'
+              "
+            >
+              *
+            </small>
+          </label>
           <div class="p-input-icon-right">
             <i class="pi pi-phone"></i>
             <p-inputMask
@@ -113,12 +142,24 @@ interface StatusOptionsModel {
             for="memberType"
             htmlFor="memberType"
             class="font-medium text-900"
-            >Type</label
           >
+            Type
+            <small
+              id="type-help"
+              [ngClass]="
+                formGroup.get('type')?.invalid
+                  ? 'text-red-500'
+                  : 'text-green-500'
+              "
+            >
+              *
+            </small>
+          </label>
           <p-dropdown
             [options]="memberType"
             class="p-element p-inputwrapper"
-            formControlName="selectedCity"
+            placeholder="Select type"
+            formControlName="type"
             optionLabel="name"
           />
         </div>
@@ -129,7 +170,7 @@ interface StatusOptionsModel {
           >
           <p-selectButton
             [options]="statusOptions"
-            formControlName="value"
+            formControlName="status"
             optionLabel="label"
             optionValue="value"
           />
@@ -151,7 +192,7 @@ interface StatusOptionsModel {
         </div>
 
         <footer
-          class="flex justify-content-center mt-5 col-12 sm:justify-content-end"
+          class="flex justify-content-center mt-4 col-12 sm:justify-content-end"
         >
           <p-button
             label="Save Decimate"
@@ -162,15 +203,22 @@ interface StatusOptionsModel {
         </footer>
       </form>
     </div>
+    <div>
+      {{ test | async }}
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnInit {
   private fb = inject(FormBuilder);
+  private store = inject(Store<RegisterMemberRequiredProps>);
+  private registerMemberService = inject(RegisterMemberService);
+
+  test?: Observable<RegisterMemberRequiredProps>;
 
   formGroup!: FormGroup;
   userName!: string;
-  selectedCity!: MemberTypeModel;
+  type!: MemberTypeModel;
   email!: string;
   phone!: string;
   historic!: string;
@@ -183,19 +231,59 @@ export class RegisterComponent implements OnInit {
   memberType!: MemberTypeModel[];
 
   ngOnInit(): void {
+    this.clearFormValue();
+    this.configFormValues();
+
+    this.store.pipe(select(registerMemberSelector)).subscribe(value => {
+      console.log(value);
+    });
+  }
+
+  configFormValues(): void {
     this.formGroup = this.fb.group({
       userName: ['', Validators.required],
-      selectedCity: ['', Validators.required],
+      type: [this.memberType, Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
-      value: ['active'],
+      status: ['active'],
       historic: ['']
     });
 
-    this.memberType = [{ name: 'Decimate' }, { name: 'Provider' }];
+    this.memberType = [
+      { name: 'Decimate', value: 'decimate' },
+      { name: 'Provider', value: 'provider' }
+    ];
   }
 
-  onSubmit(form: FormGroup): void {
-    console.log('***form', form.value);
+  onSubmit(registerMemberProps: FormGroup): void {
+    const { userName, type, phone, status, email, historic } =
+      registerMemberProps.value;
+    const formValue = {
+      userName: userName,
+      type: type.value,
+      phone: phone,
+      status: status,
+      email: email,
+      historic: historic
+    };
+
+    this.store.dispatch(
+      RegisterMemberActions.registerMemberAdded({ register: formValue })
+    );
+
+    this.registerMemberService
+      .registerMember(formValue)
+      .pipe(first())
+      .subscribe(member => {
+        this.clearFormValue();
+
+        this.store.dispatch(
+          RegisteredMemberApiActions.registeredMemberAdded({ register: member })
+        );
+      });
+  }
+
+  clearFormValue(): void {
+    this.store.dispatch(RegisterMemberActions.enter());
   }
 }
