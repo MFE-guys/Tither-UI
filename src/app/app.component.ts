@@ -24,6 +24,7 @@ import { CardComponent } from './core/components/Card';
       <app-header />
       <main class="w-80rem m-auto px-4">
         <router-outlet></router-outlet>
+        <h1>test</h1>
       </main>
     </div>
   `
