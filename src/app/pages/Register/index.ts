@@ -3,7 +3,8 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   CUSTOM_ELEMENTS_SCHEMA,
-  inject
+  inject,
+  ViewChild
 } from '@angular/core';
 import {
   FormBuilder,
@@ -21,6 +22,7 @@ import {
 import { registerMemberSelector } from 'src/app/store/reducers/register-member.reducer';
 import { RegisterMemberRequiredProps } from 'src/app/core/model/interface/register-member.interface';
 import { RegisterMemberService } from 'src/app/core/services/register-member.service';
+import { MessageComponent } from 'src/app/core/components/Message';
 
 import { Observable, first } from 'rxjs';
 
@@ -53,10 +55,13 @@ interface StatusOptionsModel {
     InputMaskModule,
     SelectButtonModule,
     InputTextareaModule,
-    ButtonModule
+    ButtonModule,
+    MessageComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
+    <app-message #MessageComponent />
+
     <div class="card shadow-2">
       <form
         [formGroup]="formGroup"
@@ -210,6 +215,8 @@ interface StatusOptionsModel {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnInit {
+  @ViewChild('MessageComponent') messageComponent?: MessageComponent;
+
   private fb = inject(FormBuilder);
   private store = inject(Store<RegisterMemberRequiredProps>);
   private registerMemberService = inject(RegisterMemberService);
@@ -274,12 +281,20 @@ export class RegisterComponent implements OnInit {
     this.registerMemberService
       .registerMember(formValue)
       .pipe(first())
-      .subscribe(member => {
-        this.clearFormValue();
-
-        this.store.dispatch(
-          RegisteredMemberApiActions.registeredMemberAdded({ register: member })
-        );
+      .subscribe({
+        next: member => {
+          this.clearFormValue();
+          this.messageComponent?.success();
+          this.store.dispatch(
+            RegisteredMemberApiActions.registeredMemberAdded({
+              register: member
+            })
+          );
+        },
+        error: err => {
+          console.log('*** err', err.message);
+          this.messageComponent?.failed();
+        }
       });
   }
 

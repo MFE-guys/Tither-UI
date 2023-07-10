@@ -10,7 +10,7 @@ import {
   RegisterMemberRequiredProps
 } from '../model/interface/register-member.interface';
 
-const BASE_URL = '';
+const BASE_URL = 'http://localhost:3000';
 const HEADER = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
 };
@@ -30,7 +30,7 @@ export class RegisterMemberService {
     };
 
     return this.httpClient.post<RegisterMemberModel>(
-      `${BASE_URL}`,
+      `${BASE_URL}/register`,
       JSON.stringify(register),
       HEADER
     );
