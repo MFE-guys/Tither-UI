@@ -23,6 +23,7 @@ import { registerMemberSelector } from 'src/app/store/reducers/register-member.r
 import { RegisterMemberRequiredProps } from 'src/app/core/model/interface/register-member.interface';
 import { RegisterMemberService } from 'src/app/core/services/register-member.service';
 import { MessageComponent } from 'src/app/core/components/Message';
+import { MessageActions } from 'src/app/store/actions/message.actions';
 
 import { Observable, first } from 'rxjs';
 
@@ -284,7 +285,16 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next: member => {
           this.clearFormValue();
-          this.messageComponent?.success();
+
+          this.store.dispatch(
+            MessageActions.sendMessage({
+              message: {
+                severity: 'Success',
+                detail: 'Member registered with success'
+              }
+            })
+          );
+
           this.store.dispatch(
             RegisteredMemberApiActions.registeredMemberAdded({
               register: member
@@ -293,7 +303,14 @@ export class RegisterComponent implements OnInit {
         },
         error: err => {
           console.log('*** err', err.message);
-          this.messageComponent?.failed();
+          this.store.dispatch(
+            MessageActions.sendMessage({
+              message: {
+                severity: 'Error',
+                detail: err.message
+              }
+            })
+          );
         }
       });
   }

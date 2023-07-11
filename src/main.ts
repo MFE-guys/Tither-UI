@@ -6,21 +6,17 @@ import {
   DEFAULT_CURRENCY_CODE
 } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideState, provideStore, StoreModule } from '@ngrx/store';
-import { themeReducer } from './app/store/reducers';
-
+import { provideStore } from '@ngrx/store';
 import ptBr from '@angular/common/locales/pt';
 
 import { registerLocaleData } from '@angular/common';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/routes';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { registerMemberReducer } from './app/store/reducers/register-member.reducer';
-import {
-  HttpClient,
-  HttpClientModule,
-  HttpHandler
-} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { provideEffects } from '@ngrx/effects';
+import { RegisterMemberEffect } from './app/store/effects/register-member.effect';
+import { appReducers } from './app/store/reducers';
 
 registerLocaleData(ptBr);
 
@@ -31,10 +27,11 @@ bootstrapApplication(AppComponent, {
       BrowserAnimationsModule,
       HttpClientModule
     ),
-    provideStore(),
-    provideState('register', registerMemberReducer),
+    provideStore(appReducers),
+    // provideState(MessageFeature, registerMemberFeature),
     provideRouter(routes),
     provideStoreDevtools(),
+    provideEffects(RegisterMemberEffect),
     { provide: LOCALE_ID, useValue: 'pt' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
   ]

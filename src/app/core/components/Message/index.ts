@@ -1,7 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { MessageActions } from 'src/app/store/actions/message.actions';
+import { Component, OnInit, inject } from '@angular/core';
+import { MessageSelector } from 'src/app/store/reducers/message.reducer';
 
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { Store, select } from '@ngrx/store';
 
 @Component({
   selector: 'app-message',
@@ -17,22 +20,22 @@ import { MessageService } from 'primeng/api';
   imports: [ToastModule],
   providers: [MessageService]
 })
-export class MessageComponent {
+export class MessageComponent implements OnInit {
   private messageService = inject(MessageService);
+  private store = inject(Store);
 
-  success(): void {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Data Saved'
-    });
-  }
+  ngOnInit(): void {
+    this.store.pipe(select(MessageActions.enter));
 
-  failed(): void {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'Data not saved'
+    this.store.pipe(select(MessageSelector)).subscribe({
+      next: result => {
+        if (result)
+          this.messageService.add({
+            severity: result.severity?.toLowerCase(),
+            summary: result.severity,
+            detail: result.detail
+          });
+      }
     });
   }
 }

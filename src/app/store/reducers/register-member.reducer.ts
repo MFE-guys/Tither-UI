@@ -1,6 +1,7 @@
 import { RegisterMemberRequiredProps } from 'src/app/core/model/interface/register-member.interface';
 
 import {
+  createFeature,
   createFeatureSelector,
   createReducer,
   createSelector,
@@ -9,7 +10,8 @@ import {
 
 import {
   RegisterMemberActions,
-  RegisterMemberState
+  RegisterMemberState,
+  RegisteredMemberApiActions
 } from '../actions/register-member.actions';
 
 const registerMember = (
@@ -37,16 +39,21 @@ export const registerMemberReducer = createReducer(
       collection: registerMember(state.collection, action.register),
       currentMemberId: null
     };
+  }),
+  on(RegisteredMemberApiActions.registeredMemberAdded, (state, action) => {
+    return {
+      collection: registerMember(state.collection, action.register),
+      currentMemberId: null
+    };
+  }),
+  on(RegisteredMemberApiActions.registeredMemberFailure, state => {
+    return {
+      ...state
+    };
   })
-  // on(registerMember.registerMemberFailure, (state, action) => {
-  //   return {
-  //     ...state,
-  //     collection: action.error
-  //   }
-  // })
 );
 
 export const registerMemberSelector = createSelector(
-  createFeatureSelector('register'),
+  createFeatureSelector(registerMemberFeatureKey),
   (state: RegisterMemberRequiredProps[]) => state
 );

@@ -22,6 +22,9 @@ export const RegisteredMemberApiActions = createActionGroup({
     'Registered Member Added': props<{
       register: RegisterMemberRequiredProps;
     }>(),
+    'Registered Member Failure': props<{
+      error: string;
+    }>(),
     'Registered Member Loaded Success': props<{
       register: RegisterMemberRequiredProps[];
     }>()
