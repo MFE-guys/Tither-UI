@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
 import { PrimeNGConfig } from 'primeng/api';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { HeaderComponent } from './core/components/Header';
 import { DashboardPage } from './pages/Dashboard';

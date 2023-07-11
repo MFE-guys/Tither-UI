@@ -3,8 +3,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   CUSTOM_ELEMENTS_SCHEMA,
-  inject,
-  ViewChild
+  inject
 } from '@angular/core';
 import {
   FormBuilder,
@@ -19,10 +18,8 @@ import {
   RegisterMemberActions,
   RegisteredMemberApiActions
 } from 'src/app/store/actions/register-member.actions';
-import { registerMemberSelector } from 'src/app/store/reducers/register-member.reducer';
 import { RegisterMemberRequiredProps } from 'src/app/core/model/interface/register-member.interface';
 import { RegisterMemberService } from 'src/app/core/services/register-member.service';
-import { MessageComponent } from 'src/app/core/components/Message';
 import { MessageActions } from 'src/app/store/actions/message.actions';
 
 import { Observable, first } from 'rxjs';
@@ -33,7 +30,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 interface MemberTypeModel {
   name: string;
   value: string;
@@ -238,10 +235,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.clearFormValue();
     this.configFormValues();
-
-    this.store.pipe(select(registerMemberSelector)).subscribe(value => {
-      console.log(value);
-    });
   }
 
   configFormValues(): void {
@@ -261,23 +254,14 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(registerMemberProps: FormGroup): void {
-    const { userName, type, phone, status, email, historic } =
-      registerMemberProps.value;
-    const formValue = {
-      userName: userName,
-      type: type.value,
-      phone: phone,
-      status: status,
-      email: email,
-      historic: historic
-    };
+    const registerFormValue = { ...registerMemberProps.value };
 
     this.store.dispatch(
-      RegisterMemberActions.registerMemberAdded({ register: formValue })
+      RegisterMemberActions.registerMemberAdded({ register: registerFormValue })
     );
 
     this.registerMemberService
-      .registerMember(formValue)
+      .registerMember(registerFormValue)
       .pipe(first())
       .subscribe({
         next: member => {
