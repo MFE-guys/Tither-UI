@@ -1,9 +1,15 @@
 import { signal } from '@angular/core';
 import { Constants } from 'src/app/utils/constants';
 
-import { Action, createReducer, on } from '@ngrx/store';
+import {
+  createFeature,
+  createFeatureSelector,
+  createReducer,
+  createSelector,
+  on
+} from '@ngrx/store';
 
-import { themeActions } from '../actions';
+import { ThemeActions } from '../actions/theme.actions';
 
 const { dark, light } = Constants.theme;
 export const initialTheme = 'saga-green';
@@ -12,15 +18,16 @@ export const themeFeatureKey = 'theme';
 
 export const globalTheme = signal(initialTheme);
 
-const _themeReducer = createReducer(
-  initialTheme,
-  on(themeActions.lightTheme, () => light),
-  on(themeActions.darkTheme, () => dark)
-);
+export const themeFeature = createFeature({
+  name: themeFeatureKey,
+  reducer: createReducer(
+    initialTheme,
+    on(ThemeActions.lightTheme, () => light),
+    on(ThemeActions.darkTheme, () => dark)
+  )
+});
 
-export function themeReducer(
-  state: string | undefined,
-  action: Action
-): string {
-  return _themeReducer(state, action);
-}
+export const themeSelector = createSelector(
+  createFeatureSelector(themeFeatureKey),
+  (state: string | undefined) => state
+);

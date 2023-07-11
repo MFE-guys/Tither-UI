@@ -1,6 +1,7 @@
 import { MessageModel } from 'src/app/core/model/interface/message.interface';
 
 import {
+  createFeature,
   createFeatureSelector,
   createReducer,
   createSelector,
@@ -14,19 +15,20 @@ export const initialState: MessageModel = {
   detail: ''
 };
 
-export const messageFeatureKey = 'message';
-
-export const MessageReducer = createReducer(
-  initialState,
-  on(MessageActions.enter, state => {
-    return {
-      ...state
-    };
-  }),
-  on(MessageActions.sendMessage, (state, { message }) => ({
-    ...message
-  }))
-);
+export const messageFeature = createFeature({
+  name: 'message',
+  reducer: createReducer(
+    initialState,
+    on(MessageActions.enter, state => {
+      return {
+        ...state
+      };
+    }),
+    on(MessageActions.sendMessage, (state, { message }) => ({
+      ...message
+    }))
+  )
+});
 
 export const MessageSelector = createSelector(
   createFeatureSelector('message'),

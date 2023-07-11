@@ -26,32 +26,35 @@ export const initialState: RegisterMemberState = {
 
 export const registerMemberFeatureKey = 'register';
 
-export const registerMemberReducer = createReducer(
-  initialState,
-  on(RegisterMemberActions.enter, state => {
-    return {
-      ...state,
-      currentMemberId: null
-    };
-  }),
-  on(RegisterMemberActions.registerMemberAdded, (state, action) => {
-    return {
-      collection: registerMember(state.collection, action.register),
-      currentMemberId: null
-    };
-  }),
-  on(RegisteredMemberApiActions.registeredMemberAdded, (state, action) => {
-    return {
-      collection: registerMember(state.collection, action.register),
-      currentMemberId: null
-    };
-  }),
-  on(RegisteredMemberApiActions.registeredMemberFailure, state => {
-    return {
-      ...state
-    };
-  })
-);
+export const registerMemberFeature = createFeature({
+  name: 'register',
+  reducer: createReducer(
+    initialState,
+    on(RegisterMemberActions.enter, state => {
+      return {
+        ...state,
+        currentMemberId: null
+      };
+    }),
+    on(RegisterMemberActions.registerMemberAdded, (state, action) => {
+      return {
+        collection: registerMember(state.collection, action.register),
+        currentMemberId: null
+      };
+    }),
+    on(RegisteredMemberApiActions.registeredMemberAdded, (state, action) => {
+      return {
+        collection: registerMember(state.collection, action.register),
+        currentMemberId: null
+      };
+    }),
+    on(RegisteredMemberApiActions.registeredMemberFailure, state => {
+      return {
+        ...state
+      };
+    })
+  )
+});
 
 export const registerMemberSelector = createSelector(
   createFeatureSelector(registerMemberFeatureKey),

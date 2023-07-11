@@ -18,13 +18,13 @@ import { MessageComponent } from './core/components/Message';
     CardComponent,
     CommonModule,
     RouterOutlet,
-    RouterModule
-    // MessageComponent
+    RouterModule,
+    MessageComponent
   ],
   standalone: true,
   template: `
     <div class="min-w-15rem">
-      <!-- <app-message #MessageComponent /> -->
+      <app-message #MessageComponent />
       <app-header />
       <main class="w-80rem m-auto px-4">
         <router-outlet></router-outlet>
@@ -33,7 +33,7 @@ import { MessageComponent } from './core/components/Message';
   `
 })
 export class AppComponent implements OnInit {
-  // @ViewChild('MessageComponent') messageComponent?: MessageComponent;
+  @ViewChild('MessageComponent') messageComponent?: MessageComponent;
 
   private primengConfig = inject(PrimeNGConfig);
 

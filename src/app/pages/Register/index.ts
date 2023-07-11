@@ -56,8 +56,7 @@ interface StatusOptionsModel {
     InputMaskModule,
     SelectButtonModule,
     InputTextareaModule,
-    ButtonModule,
-    MessageComponent
+    ButtonModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
@@ -216,8 +215,6 @@ interface StatusOptionsModel {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnInit {
-  @ViewChild('MessageComponent') messageComponent?: MessageComponent;
-
   private fb = inject(FormBuilder);
   private store = inject(Store<RegisterMemberRequiredProps>);
   private registerMemberService = inject(RegisterMemberService);
@@ -302,7 +299,6 @@ export class RegisterComponent implements OnInit {
           );
         },
         error: err => {
-          console.log('*** err', err.message);
           this.store.dispatch(
             MessageActions.sendMessage({
               message: {
