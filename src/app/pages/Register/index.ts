@@ -259,40 +259,6 @@ export class RegisterComponent implements OnInit {
     this.store.dispatch(
       RegisterMemberActions.registerMemberAdded({ register: registerFormValue })
     );
-
-    this.registerMemberService
-      .registerMember(registerFormValue)
-      .pipe(first())
-      .subscribe({
-        next: member => {
-          this.clearFormValue();
-
-          this.store.dispatch(
-            MessageActions.sendMessage({
-              message: {
-                severity: 'Success',
-                detail: 'Member registered with success'
-              }
-            })
-          );
-
-          this.store.dispatch(
-            RegisteredMemberApiActions.registeredMemberAdded({
-              register: member
-            })
-          );
-        },
-        error: err => {
-          this.store.dispatch(
-            MessageActions.sendMessage({
-              message: {
-                severity: 'Error',
-                detail: err.message
-              }
-            })
-          );
-        }
-      });
   }
 
   clearFormValue(): void {

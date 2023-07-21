@@ -33,7 +33,6 @@ import { MessageComponent } from './core/components/Message';
 })
 export class AppComponent implements OnInit {
   @ViewChild('MessageComponent') messageComponent?: MessageComponent;
-
   private primengConfig = inject(PrimeNGConfig);
 
   ngOnInit(): void {

@@ -29,6 +29,7 @@ export class MessageComponent implements OnInit {
 
     this.store.pipe(select(MessageSelector)).subscribe({
       next: result => {
+        console.log('aqui');
         if (result)
           this.messageService.add({
             severity: result.severity?.toLowerCase(),

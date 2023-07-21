@@ -2,9 +2,20 @@ import { Injectable, inject } from '@angular/core';
 import { RegisterMemberService } from 'src/app/core/services/register-member.service';
 import { RegisterMemberRequiredProps } from 'src/app/core/model/interface/register-member.interface';
 
-import { catchError, exhaustMap, from, map, of, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  exhaustMap,
+  finalize,
+  from,
+  map,
+  of,
+  switchMap,
+  tap,
+  throwError
+} from 'rxjs';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 
 import {
   RegisterMemberActions,
@@ -15,6 +26,7 @@ import { MessageActions } from '../actions/message.actions';
 @Injectable()
 export class RegisterMemberEffect {
   private actions$ = inject(Actions);
+  private store = inject(Store);
   private registerMemberService = inject(RegisterMemberService);
 
   addMember$ = createEffect(() =>
@@ -22,17 +34,34 @@ export class RegisterMemberEffect {
       ofType(RegisterMemberActions.registerMemberAdded),
       exhaustMap(({ register }) =>
         from(this.registerMemberService.registerMember(register)).pipe(
-          map(response => response),
           map((registerMember: RegisterMemberRequiredProps) =>
             RegisteredMemberApiActions.registeredMemberAdded({
               register: registerMember
             })
           ),
-          catchError(err =>
-            of(
-              RegisteredMemberApiActions.registeredMemberFailure({ error: err })
+          tap(() =>
+            this.store.dispatch(
+              MessageActions.sendMessage({
+                message: {
+                  severity: 'Success',
+                  detail: 'Member created with success'
+                }
+              })
             )
-          )
+          ),
+          catchError(err => {
+            this.store.dispatch(
+              MessageActions.sendMessage({
+                message: {
+                  severity: 'Error',
+                  detail: 'Member not added'
+                }
+              })
+            );
+            return of(
+              RegisteredMemberApiActions.registeredMemberFailure({ error: err })
+            );
+          })
         )
       )
     )
