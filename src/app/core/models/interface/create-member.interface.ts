@@ -1,4 +1,4 @@
-export interface RegisterMemberModel {
+export interface CreateMemberModel {
   id: string | number;
   userName: string;
   email: string;
@@ -8,4 +8,4 @@ export interface RegisterMemberModel {
   historic?: string;
 }
 
-export type RegisterMemberRequiredProps = Omit<RegisterMemberModel, 'id'>;
+export type CreateMemberRequiredProps = Omit<CreateMemberModel, 'id'>;

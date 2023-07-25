@@ -14,12 +14,12 @@ import {
 
 import { ChartModule } from 'primeng/chart';
 
-import { Incoming, Expense, Amount } from '../../model/enum/card.enum';
-import { CardType } from '../../model/interface/card.interface';
+import { Incoming, Expense, Amount } from '../../models/enum/card.enum';
+import { CardType } from '../../models/interface/card.interface';
 import {
   DataChartModel,
   OptionsChartModel
-} from '../../model/interface/chart.interface';
+} from '../../models/interface/chart.interface';
 @Component({
   selector: 'app-card',
   standalone: true,

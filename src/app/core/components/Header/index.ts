@@ -12,7 +12,7 @@ import { MenuItem } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
 
 import { DropdownMenuComponent } from '../DropodownMenu';
-import { DropdownModel } from '../../model/interface/dropdown.interface';
+import { DropdownModel } from '../../models/interface/dropdown.interface';
 
 const { dark, light } = Constants.theme;
 

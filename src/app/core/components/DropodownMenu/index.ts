@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
 
-import { DropdownModel } from '../../model/interface/dropdown.interface';
+import { DropdownModel } from '../../models/interface/dropdown.interface';
 
 @Component({
   selector: 'app-dropdown-menu',

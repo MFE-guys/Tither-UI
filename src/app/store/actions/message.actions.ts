@@ -1,4 +1,4 @@
-import { MessageModel } from 'src/app/core/model/interface/message.interface';
+import { MessageModel } from 'src/app/core/models/interface/message.interface';
 
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 

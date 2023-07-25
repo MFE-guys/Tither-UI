@@ -15,8 +15,8 @@ import { routes } from './app/routes';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
-import { RegisterMemberEffect } from './app/store/effects/register-member.effect';
-import { registerMemberFeature } from './app/store/reducers/register-member.reducer';
+import { CreateMemberEffect } from './app/store/effects/create-member.effect';
+import { createMemberFeature } from './app/store/reducers/create-member.reducer';
 import { themeFeature } from './app/store/reducers/theme.reducer';
 import { messageFeature } from './app/store/reducers/message.reducer';
 
@@ -30,12 +30,12 @@ bootstrapApplication(AppComponent, {
       HttpClientModule
     ),
     provideStore(),
-    provideState(registerMemberFeature),
+    provideState(createMemberFeature),
     provideState(messageFeature),
     provideState(themeFeature),
     provideRouter(routes),
     provideStoreDevtools(),
-    provideEffects(RegisterMemberEffect),
+    provideEffects(CreateMemberEffect),
     { provide: LOCALE_ID, useValue: 'pt' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
   ]

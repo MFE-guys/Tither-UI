@@ -14,15 +14,8 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {
-  RegisterMemberActions,
-  RegisteredMemberApiActions
-} from 'src/app/store/actions/register-member.actions';
-import { RegisterMemberRequiredProps } from 'src/app/core/model/interface/register-member.interface';
-import { RegisterMemberService } from 'src/app/core/services/register-member.service';
-import { MessageActions } from 'src/app/store/actions/message.actions';
-
-import { Observable, first } from 'rxjs';
+import { CreateMemberActions } from 'src/app/store/actions/create-member.actions';
+import { CreateMemberRequiredProps } from 'src/app/core/models//interface/create-member.interface';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
@@ -170,6 +163,14 @@ interface StatusOptionsModel {
           <label for="status" htmlFor="status" class="font-medium text-900"
             >Status</label
           >
+          <small
+            id="type-help"
+            [ngClass]="
+              formGroup.get('type')?.invalid ? 'text-red-500' : 'text-green-500'
+            "
+          >
+            *
+          </small>
           <p-selectButton
             [options]="statusOptions"
             formControlName="status"
@@ -205,18 +206,12 @@ interface StatusOptionsModel {
         </footer>
       </form>
     </div>
-    <div>
-      {{ test | async }}
-    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private store = inject(Store<RegisterMemberRequiredProps>);
-  private registerMemberService = inject(RegisterMemberService);
-
-  test?: Observable<RegisterMemberRequiredProps>;
+  private store = inject(Store<CreateMemberRequiredProps>);
 
   formGroup!: FormGroup;
   userName!: string;
@@ -224,16 +219,15 @@ export class RegisterComponent implements OnInit {
   email!: string;
   phone!: string;
   historic!: string;
-
   statusOptions: StatusOptionsModel[] = [
     { label: 'Active', value: 'active' },
     { label: 'Inactive', value: 'inactive' }
   ];
-
   memberType!: MemberTypeModel[];
 
   ngOnInit(): void {
-    this.clearFormValue();
+    this.store.dispatch(CreateMemberActions.enter());
+
     this.configFormValues();
   }
 
@@ -243,7 +237,7 @@ export class RegisterComponent implements OnInit {
       type: [this.memberType, Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
-      status: ['active'],
+      status: ['', Validators.required],
       historic: ['']
     });
 
@@ -253,15 +247,11 @@ export class RegisterComponent implements OnInit {
     ];
   }
 
-  onSubmit(registerMemberProps: FormGroup): void {
-    const registerFormValue = { ...registerMemberProps.value };
+  onSubmit(createMemberProps: FormGroup): void {
+    const registerFormValue = { ...createMemberProps.value };
 
     this.store.dispatch(
-      RegisterMemberActions.registerMemberAdded({ register: registerFormValue })
+      CreateMemberActions.createMember({ register: registerFormValue })
     );
-  }
-
-  clearFormValue(): void {
-    this.store.dispatch(RegisterMemberActions.enter());
   }
 }

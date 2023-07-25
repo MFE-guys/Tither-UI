@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 import * as uuid from 'uuid';
 
 import {
-  RegisterMemberModel,
-  RegisterMemberRequiredProps
-} from '../model/interface/register-member.interface';
+  CreateMemberModel,
+  CreateMemberRequiredProps
+} from '../models/interface/create-member.interface';
 
 const BASE_URL = 'http://localhost:3000';
 const HEADER = {
@@ -18,18 +18,18 @@ const HEADER = {
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterMemberService {
+export class CreateMemberService {
   private httpClient = inject(HttpClient);
 
-  registerMember(
-    registerProps: RegisterMemberRequiredProps
-  ): Observable<RegisterMemberModel> {
-    const register: RegisterMemberModel = {
+  createMember(
+    registerProps: CreateMemberRequiredProps
+  ): Observable<CreateMemberModel> {
+    const register: CreateMemberModel = {
       id: uuid.v4(),
       ...registerProps
     };
 
-    return this.httpClient.post<RegisterMemberModel>(
+    return this.httpClient.post<CreateMemberModel>(
       `${BASE_URL}/register`,
       JSON.stringify(register),
       HEADER
