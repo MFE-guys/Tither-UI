@@ -1,4 +1,7 @@
-import { CreateMemberRequiredProps } from 'src/app/core/models/interface/create-member.interface';
+import {
+  CreateMemberRequiredProps,
+  CreateMemberStatus
+} from 'src/app/core/models/interface/create-member.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
@@ -7,7 +10,7 @@ export interface CreateMemberState {
   collection: CreateMemberRequiredProps[];
   currentMemberId: string | null;
   error: HttpErrorResponse | null;
-  status: string | null;
+  status: CreateMemberStatus | null;
 }
 
 export const CreateMemberActions = createActionGroup({
@@ -26,7 +29,7 @@ export const MemberCreatedApiActions = createActionGroup({
       member: CreateMemberRequiredProps;
     }>(),
     'Member Created Failure': props<{
-      error: HttpErrorResponse | null;
+      error: HttpErrorResponse;
     }>(),
     'Member Created Loaded Success': props<{
       member: CreateMemberRequiredProps[];

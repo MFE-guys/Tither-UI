@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { CreateMemberActions } from 'src/app/store/actions/create-member.actions';
 import { CreateMemberRequiredProps } from 'src/app/core/models//interface/create-member.interface';
 import { createMemberSelector } from 'src/app/store/reducers/create-member.reducer';
+import { CreateMemberStatus } from 'src/app/core/models/enum/create-member-status.enum';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
@@ -26,6 +27,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { Store, select } from '@ngrx/store';
+
 interface MemberTypeModel {
   name: string;
   value: string;
@@ -245,11 +247,10 @@ export class RegisterComponent implements OnInit {
 
     this.store.pipe(select(createMemberSelector)).subscribe({
       next: type => {
-        if (type.status === 'save') {
+        if (type.status === CreateMemberStatus.saved) {
           this.formGroup?.reset();
           this.buttonConfig.set(new ButtonConfigModel());
-          return;
-        } else if (type.status === 'error')
+        } else if (type.status === CreateMemberStatus.error)
           this.buttonConfig.set(new ButtonConfigModel());
       }
     });
@@ -274,7 +275,16 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(createMemberProps: FormGroup): void {
-    const registerFormValue = { ...createMemberProps.value };
+    const memberValue = createMemberProps.value;
+    const registerFormValue = {
+      userName: memberValue.userName,
+      type: memberValue.type.value,
+      email: memberValue.email,
+      phone: memberValue.phone,
+      status: memberValue.status,
+      historic: memberValue.historic
+    };
+
     this.buttonConfig.update(() => ({ loading: true, label: 'Saving...' }));
 
     this.store.dispatch(

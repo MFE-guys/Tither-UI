@@ -9,3 +9,5 @@ export interface CreateMemberModel {
 }
 
 export type CreateMemberRequiredProps = Omit<CreateMemberModel, 'id'>;
+
+export type CreateMemberStatus = 'Saved' | 'Error';

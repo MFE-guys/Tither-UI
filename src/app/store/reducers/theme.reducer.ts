@@ -12,10 +12,9 @@ import {
 import { ThemeActions } from '../actions/theme.actions';
 
 const { dark, light } = Constants.theme;
+
 export const initialTheme = 'saga-green';
-
 export const themeFeatureKey = 'theme';
-
 export const globalTheme = signal(initialTheme);
 
 export const themeFeature = createFeature({
