@@ -3,7 +3,7 @@ import { CreateMemberService } from 'src/app/core/services/create-member.service
 import { CreateMemberRequiredProps } from 'src/app/core/models/interface/create-member.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { catchError, filter, from, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, from, map, mergeMap, of, tap } from 'rxjs';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -23,11 +23,11 @@ export class CreateMemberEffect {
   addMember$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CreateMemberActions.createMember),
-      mergeMap(({ register }) =>
-        from(this.createMemberService.createMember(register)).pipe(
+      mergeMap(({ member }) =>
+        from(this.createMemberService.createMember(member)).pipe(
           map((createMember: CreateMemberRequiredProps) =>
             MemberCreatedApiActions.memberCreated({
-              register: createMember
+              member: createMember
             })
           ),
           tap(() => {

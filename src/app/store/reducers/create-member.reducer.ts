@@ -22,13 +22,14 @@ const createMember = (
 export const initialState: CreateMemberState = {
   collection: [],
   error: null,
-  currentMemberId: null
+  currentMemberId: null,
+  status: null
 };
 
 export const createMemberFeatureKey = 'member';
 
 export const createMemberFeature = createFeature({
-  name: 'register',
+  name: 'member',
   reducer: createReducer(
     initialState,
     on(CreateMemberActions.enter, state => {
@@ -40,23 +41,26 @@ export const createMemberFeature = createFeature({
     }),
     on(CreateMemberActions.createMember, (state, action) => {
       return {
-        collection: createMember(state.collection, action.register),
+        collection: createMember(state.collection, action.member),
         currentMemberId: null,
-        error: null
+        error: null,
+        status: null
       };
     }),
     on(MemberCreatedApiActions.memberCreated, (state, action) => {
       return {
-        collection: createMember(state.collection, action.register),
+        collection: createMember(state.collection, action.member),
         currentMemberId: null,
-        error: null
+        error: null,
+        status: 'save'
       };
     }),
     on(MemberCreatedApiActions.memberCreatedFailure, (state, action) => {
       return {
         collection: [],
         currentMemberId: null,
-        error: action.error
+        error: action.error,
+        status: 'error'
       };
     })
   )

@@ -3,7 +3,8 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   CUSTOM_ELEMENTS_SCHEMA,
-  inject
+  inject,
+  signal
 } from '@angular/core';
 import {
   FormBuilder,
@@ -16,6 +17,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreateMemberActions } from 'src/app/store/actions/create-member.actions';
 import { CreateMemberRequiredProps } from 'src/app/core/models//interface/create-member.interface';
+import { createMemberSelector } from 'src/app/store/reducers/create-member.reducer';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
@@ -23,7 +25,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 interface MemberTypeModel {
   name: string;
   value: string;
@@ -32,6 +34,16 @@ interface MemberTypeModel {
 interface StatusOptionsModel {
   label: string;
   value: string;
+}
+
+class ButtonConfigModel {
+  label: string;
+  loading: boolean;
+
+  constructor(label = 'Save Decimate', loading = false) {
+    this.label = label;
+    this.loading = loading;
+  }
 }
 @Component({
   selector: 'page-register',
@@ -198,9 +210,10 @@ interface StatusOptionsModel {
           class="flex justify-content-center mt-4 col-12 sm:justify-content-end"
         >
           <p-button
-            label="Save Decimate"
+            [label]="buttonConfig().label"
             type="submit"
             [disabled]="!formGroup.valid"
+            [loading]="buttonConfig().loading"
             class="font-bold w-18rem lg:w-10rem md:w-10rem sm:w-10rem"
           />
         </footer>
@@ -212,6 +225,8 @@ interface StatusOptionsModel {
 export class RegisterComponent implements OnInit {
   private fb = inject(FormBuilder);
   private store = inject(Store<CreateMemberRequiredProps>);
+
+  buttonConfig = signal<ButtonConfigModel>(new ButtonConfigModel());
 
   formGroup!: FormGroup;
   userName!: string;
@@ -227,6 +242,16 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(CreateMemberActions.enter());
+
+    this.store.pipe(select(createMemberSelector)).subscribe({
+      next: type => {
+        if (type.status === 'save') {
+          this.buttonConfig.set(new ButtonConfigModel());
+
+          this.formGroup?.reset();
+        }
+      }
+    });
 
     this.configFormValues();
   }
@@ -249,9 +274,10 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(createMemberProps: FormGroup): void {
     const registerFormValue = { ...createMemberProps.value };
+    this.buttonConfig.update(() => ({ loading: true, label: 'Saving...' }));
 
     this.store.dispatch(
-      CreateMemberActions.createMember({ register: registerFormValue })
+      CreateMemberActions.createMember({ member: registerFormValue })
     );
   }
 }

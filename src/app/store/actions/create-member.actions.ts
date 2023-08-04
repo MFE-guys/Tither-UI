@@ -7,13 +7,14 @@ export interface CreateMemberState {
   collection: CreateMemberRequiredProps[];
   currentMemberId: string | null;
   error: HttpErrorResponse | null;
+  status: string | null;
 }
 
 export const CreateMemberActions = createActionGroup({
   source: 'Member',
   events: {
     Enter: emptyProps(),
-    'Create Member': props<{ register: CreateMemberRequiredProps }>()
+    'Create Member': props<{ member: CreateMemberRequiredProps }>()
   }
 });
 
@@ -22,13 +23,13 @@ export const MemberCreatedApiActions = createActionGroup({
   events: {
     Enter: emptyProps(),
     'Member Created': props<{
-      register: CreateMemberRequiredProps;
+      member: CreateMemberRequiredProps;
     }>(),
     'Member Created Failure': props<{
-      error: HttpErrorResponse;
+      error: HttpErrorResponse | null;
     }>(),
     'Member Created Loaded Success': props<{
-      register: CreateMemberRequiredProps[];
+      member: CreateMemberRequiredProps[];
     }>()
   }
 });

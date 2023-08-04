@@ -13,7 +13,7 @@ import { Store, select } from '@ngrx/store';
     <p-toast
       [showTransformOptions]="'translateY(100%)'"
       [showTransitionOptions]="'350ms'"
-      [hideTransitionOptions]="'400ms'"
+      [hideTransitionOptions]="'450ms'"
       [showTransformOptions]="'translateX(100%)'"
     />
   `,
@@ -29,13 +29,12 @@ export class MessageComponent implements OnInit {
 
     this.store.pipe(select(MessageSelector)).subscribe({
       next: result => {
-        console.log('aqui');
-        if (result)
-          this.messageService.add({
-            severity: result.severity?.toLowerCase(),
-            summary: result.severity,
-            detail: result.detail
-          });
+        if (result) this.messageService.clear();
+        this.messageService.add({
+          severity: result.severity?.toLowerCase(),
+          summary: result.severity,
+          detail: result.detail
+        });
       }
     });
   }
