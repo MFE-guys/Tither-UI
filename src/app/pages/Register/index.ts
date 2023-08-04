@@ -246,10 +246,11 @@ export class RegisterComponent implements OnInit {
     this.store.pipe(select(createMemberSelector)).subscribe({
       next: type => {
         if (type.status === 'save') {
-          this.buttonConfig.set(new ButtonConfigModel());
-
           this.formGroup?.reset();
-        }
+          this.buttonConfig.set(new ButtonConfigModel());
+          return;
+        } else if (type.status === 'error')
+          this.buttonConfig.set(new ButtonConfigModel());
       }
     });
 

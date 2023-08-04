@@ -57,8 +57,7 @@ export const createMemberFeature = createFeature({
     }),
     on(MemberCreatedApiActions.memberCreatedFailure, (state, action) => {
       return {
-        collection: [],
-        currentMemberId: null,
+        ...state,
         error: action.error,
         status: 'error'
       };
