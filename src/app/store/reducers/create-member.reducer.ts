@@ -37,7 +37,8 @@ export const createMemberFeature = createFeature({
       return {
         ...state,
         currentMemberId: null,
-        error: null
+        error: null,
+        status: null
       };
     }),
     on(CreateMemberActions.createMember, (state, action) => {

@@ -3,7 +3,7 @@ import { CreateMemberService } from 'src/app/core/services/create-member.service
 import { CreateMemberRequiredProps } from 'src/app/core/models/interface/create-member.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { catchError, from, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, finalize, from, map, mergeMap, of, tap } from 'rxjs';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -39,6 +39,9 @@ export class CreateMemberEffect {
                 }
               })
             );
+          }),
+          finalize(() => {
+            this.store.dispatch(CreateMemberActions.enter());
           }),
           catchError((err: HttpErrorResponse) => {
             this.store.dispatch(
