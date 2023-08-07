@@ -19,6 +19,7 @@ import { CreateMemberActions } from 'src/app/store/actions/create-member.actions
 import { CreateMemberRequiredProps } from 'src/app/core/models//interface/create-member.interface';
 import { createMemberSelector } from 'src/app/store/reducers/create-member.reducer';
 import { CreateMemberStatus } from 'src/app/core/models/enum/create-member-status.enum';
+import { ButtonConfigModel } from 'src/app/core/models/classes/button.model';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
@@ -38,15 +39,6 @@ interface StatusOptionsModel {
   value: string;
 }
 
-class ButtonConfigModel {
-  label: string;
-  loading: boolean;
-
-  constructor(label = 'Save Decimate', loading = false) {
-    this.label = label;
-    this.loading = loading;
-  }
-}
 @Component({
   selector: 'page-register',
   standalone: true,

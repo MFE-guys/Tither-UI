@@ -6,7 +6,7 @@ import {
   DEFAULT_CURRENCY_CODE
 } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideState, provideStore } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 import ptBr from '@angular/common/locales/pt';
 
 import { registerLocaleData } from '@angular/common';
@@ -16,9 +16,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import { CreateMemberEffect } from './app/store/effects/create-member.effects';
-import { createMemberFeature } from './app/store/reducers/create-member.reducer';
-import { themeFeature } from './app/store/reducers/theme.reducer';
-import { messageFeature } from './app/store/reducers/message.reducer';
+import { provideRegisterFeature } from './app/store/reducers';
 
 registerLocaleData(ptBr);
 
@@ -30,9 +28,7 @@ bootstrapApplication(AppComponent, {
       HttpClientModule
     ),
     provideStore(),
-    provideState(createMemberFeature),
-    provideState(messageFeature),
-    provideState(themeFeature),
+    provideRegisterFeature(),
     provideRouter(routes),
     provideStoreDevtools(),
     provideEffects(CreateMemberEffect),
