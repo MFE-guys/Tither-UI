@@ -45,14 +45,7 @@ const { dark, light } = Constants.theme;
 
         <div class="flex justify-content-between align-items-center gap-1">
           <div>
-            <p-button
-              styleClass="p-button-rounded p-button-text"
-              icon="pi pi-table"
-              (onClick)="handleOpenMenu()"
-              clickOutside
-              (clickOutside)="clickOutside()"
-            />
-            <app-dropdown-menu [hidden]="openMenu()" [routes]="routes" />
+            <app-dropdown-menu [routes]="routes" icon="pi-table" />
           </div>
 
           <p-button
@@ -73,7 +66,6 @@ export class HeaderComponent implements OnInit {
   themeKey = 'theme';
 
   check = signal<boolean>(false);
-  openMenu = signal<boolean>(false);
 
   initialTheme = signal<string>(light);
   items!: MenuItem[];
@@ -115,13 +107,5 @@ export class HeaderComponent implements OnInit {
     this.theme = this.check() ? dark : light;
 
     this.themeService.themeEffect(this.themeKey, this.theme);
-  }
-
-  clickOutside(): void {
-    this.openMenu.update(() => false);
-  }
-
-  handleOpenMenu(): void {
-    this.openMenu.update(() => !this.openMenu());
   }
 }

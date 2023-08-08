@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
@@ -12,7 +12,14 @@ import { ClickOutsideDirective } from '../../directives/click-outside.directive'
   standalone: true,
   imports: [ButtonModule, CommonModule, RouterLink, ClickOutsideDirective],
   template: `
-    <div [ngClass]="hidden ? '' : 'hidden'">
+    <p-button
+      styleClass="p-button-rounded p-button-text"
+      [icon]="dropdownIcon"
+      (onClick)="handleOpenMenu()"
+      clickOutside
+      (clickOutside)="clickOutside()"
+    />
+    <div [ngClass]="openMenu() ? '' : 'hidden'">
       <div
         class="
           dropdown scalein animation-duration-800
@@ -38,6 +45,21 @@ import { ClickOutsideDirective } from '../../directives/click-outside.directive'
   `
 })
 export class DropdownMenuComponent {
-  @Input({ required: true }) hidden?: boolean;
   @Input() routes?: DropdownModel[];
+  @Input() icon?: string;
+
+  check = signal<boolean>(false);
+  openMenu = signal<boolean>(false);
+
+  clickOutside(): void {
+    this.openMenu.update(() => false);
+  }
+
+  handleOpenMenu(): void {
+    this.openMenu.update(() => !this.openMenu());
+  }
+
+  get dropdownIcon(): string {
+    return `pi ${this.icon}`;
+  }
 }
