@@ -13,6 +13,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 
 import { DropdownMenuComponent } from '../DropodownMenu';
 import { DropdownModel } from '../../models/interface/dropdown.interface';
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 
 const { dark, light } = Constants.theme;
 
@@ -27,7 +28,8 @@ const { dark, light } = Constants.theme;
     SplitButtonModule,
     DropdownMenuComponent,
     RouterModule,
-    RouterLink
+    RouterLink,
+    ClickOutsideDirective
   ],
   template: `
     <header class="w-80rem m-auto relative">
@@ -47,6 +49,8 @@ const { dark, light } = Constants.theme;
               styleClass="p-button-rounded p-button-text"
               icon="pi pi-table"
               (onClick)="handleOpenMenu()"
+              clickOutside
+              (clickOutside)="clickOutside()"
             />
             <app-dropdown-menu [hidden]="openMenu()" [routes]="routes" />
           </div>
@@ -69,7 +73,7 @@ export class HeaderComponent implements OnInit {
   themeKey = 'theme';
 
   check = signal<boolean>(false);
-  openMenu = signal<boolean>(true);
+  openMenu = signal<boolean>(false);
 
   initialTheme = signal<string>(light);
   items!: MenuItem[];
@@ -113,8 +117,11 @@ export class HeaderComponent implements OnInit {
     this.themeService.themeEffect(this.themeKey, this.theme);
   }
 
+  clickOutside(): void {
+    this.openMenu.update(() => false);
+  }
+
   handleOpenMenu(): void {
     this.openMenu.update(() => !this.openMenu());
-    console.log(this.openMenu());
   }
 }

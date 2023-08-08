@@ -5,13 +5,14 @@ import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 import { DropdownModel } from '../../models/interface/dropdown.interface';
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 
 @Component({
   selector: 'app-dropdown-menu',
   standalone: true,
-  imports: [ButtonModule, CommonModule, RouterLink],
+  imports: [ButtonModule, CommonModule, RouterLink, ClickOutsideDirective],
   template: `
-    <div [ngClass]="hidden ? 'hidden' : ''">
+    <div [ngClass]="hidden ? '' : 'hidden'">
       <div
         class="
           dropdown scalein animation-duration-800
