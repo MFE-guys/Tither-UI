@@ -66,6 +66,7 @@ export class HeaderComponent implements OnInit {
   themeKey = 'theme';
 
   check = signal<boolean>(false);
+  openMenu = signal<boolean>(true);
 
   initialTheme = signal<string>(light);
   items!: MenuItem[];
@@ -107,5 +108,10 @@ export class HeaderComponent implements OnInit {
     this.theme = this.check() ? dark : light;
 
     this.themeService.themeEffect(this.themeKey, this.theme);
+  }
+
+  handleOpenMenu(): void {
+    this.openMenu.update(() => !this.openMenu());
+    console.log(this.openMenu());
   }
 }
